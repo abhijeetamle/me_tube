@@ -5,20 +5,20 @@
 	<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
 </head>
 <body>
-	<div class="row">
+	<div class="container-fluid" >
 		<div class="col-sm-2">
 			<div style="display: grid;">
-				<button class="paper-button colored">Me Tube<div class="ripple"></div></button>
-				<button class="paper-button">Home</button>
-				<button class="paper-button">Trending</button>
-				<button class="paper-button">Subscriptions</button>
-				<button class="paper-button">Library</button>
-				<button class="paper-button">History</button>
+				<button type="button" class="btn btn-link">Me Tube</button>
+				<button type="button" class="btn btn-link">Home</button>
+				<button type="button" class="btn btn-link">Trending</button>
+				<button type="button" class="btn btn-link">Subscriptions</button>
+				<button type="button" class="btn btn-link">Library</button>
+				<button type="button" class="btn btn-link">History</button>
 			</div>
 		</div>
 
 	<div class="col-sm-10">
-		<div class="row">
+		<div class="row" style="display:flex;">
 			<div class="search-wrap"> <!--  -->
 				<div class="search">
 					<input type="text" class="searchTerm" placeholder="What are you looking for?">
@@ -27,6 +27,8 @@
 					</button>
 				</div>
 			</div>
+
+			<button type="button" name="button" class="btn btn-primary">register</button>
 		</div>
 
 		<div class="row">
