@@ -3,7 +3,10 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
-
+	<?php
+		ob_start();
+		session_start();
+	 ?>
 </head>
 <body>
 	<div class="container-fluid" style="margin-top:1%;" >
@@ -27,8 +30,16 @@
 			  </div>
 			</div>
 			<div class="col-sm-4">
-				<button style="margin-left:80%;" type="button" name="button" class="btn btn-primary"
-				onClick="location.href='registrationForm.php'">register</button>
+				<?php
+
+					if(isset($_SESSION['username'])){
+						echo 'user : '.$_SESSION['username'];
+						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
+					}else{
+						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
+					}
+				?>
+
 			</div>
 		</div>
 
