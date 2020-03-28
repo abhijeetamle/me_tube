@@ -18,6 +18,15 @@
 				<button type="button" class="btn btn-link">Subscriptions</button>
 				<button type="button" class="btn btn-link">Library</button>
 				<button type="button" class="btn btn-link">History</button>
+
+				<?php
+					if(isset($_SESSION['username'])){
+						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'contactList.php\'">My Contacts</button>';
+					}else{
+						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">My Contacts</button>';
+					}
+				?>
+
 				<?php
 					if(isset($_SESSION['username'])){
 						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'media_upload.php\'">Upload</button>';

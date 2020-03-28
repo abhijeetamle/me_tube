@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if (isset($_GET['Message'])) {
+    $msg = $_GET['Message'];
+    echo "<script>alert('$msg');</script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,7 +22,11 @@ session_start();
   <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
    Add a Media: <label style="color:#663399"><em> (Each file limit 10M)</em></label><br/>
    <input  name="file" type="file" size="50" />
-  
+   <br><br>
+   <label for="caption">Video Caption: </label>
+   <br><br>
+   <input type="text" id="caption" name="caption" required>
+   <br><br>
 	<input value="Upload" name="submit" type="submit" />
   </p>
  
