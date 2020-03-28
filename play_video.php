@@ -30,6 +30,7 @@ $play_video_path = $video_path.$video_filename;
 </video>
 </p>
 <p1><?php echo $video_caption?></p1>
+
 </body>
 </html>
 

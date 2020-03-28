@@ -2,7 +2,6 @@
 session_start();
 include_once 'connmysql.php';
 connect_db();
-//include_once "function.php";
 
 $username=$_SESSION['username'];
 $userid=$_SESSION['userid'];
@@ -137,9 +136,6 @@ else {
 	header("Location: home.php?Message=".urlencode($success_message));
 	exit;
 }
-    
-
-
 
 
 ?>
