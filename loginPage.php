@@ -17,7 +17,7 @@
         $resultPass = mysqli_query($mysqli, $verifySql);
         if (mysqli_num_rows($resultPass) == 1) {
             $row = mysqli_fetch_assoc($resultPass);
-            if($row["password"] == $_POST['pwd1']){
+            if(sha1($_POST['pwd1']) == $row["password"]){
               //log the user in, set session variables
               $_SESSION['username'] = $_POST['email1'];
               $_SESSION['userid'] = $row["user_id"];

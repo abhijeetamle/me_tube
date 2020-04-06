@@ -16,7 +16,7 @@
           echo '<script>alert("Passwords must match")</script>';
         }
         else{
-          $insertSql = "INSERT INTO USER_ACCOUNT (first_name, last_name, email_id, password, gender, dob) VALUES ('" .$_POST['firstName']. "','" .$_POST['lastName']. "','" .$_POST['email']. "','" .$_POST['pwd']. "','" .$_POST['gender']."','" .$_POST['dob']. "')";
+          $insertSql = "INSERT INTO USER_ACCOUNT (first_name, last_name, email_id, password, gender, dob) VALUES ('" .$_POST['firstName']. "','" .$_POST['lastName']. "','" .$_POST['email']. "','" .sha1($_POST['pwd']). "','" .$_POST['gender']."','" .$_POST['dob']. "')";
           if (mysqli_query($mysqli, $insertSql)) {
               echo '<script>alert("New account created successfully")</script>';
           } else {
