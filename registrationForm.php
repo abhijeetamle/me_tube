@@ -71,7 +71,7 @@
       </div>
       <div class="form-group">
         <label for="gender">Gender</label><br>
-        <input type="radio" id="male" name="gender" value="M">
+        <input type="radio" id="male" name="gender" value="M" required>
         <label for="male">Male</label><br>
         <input type="radio" id="female" name="gender" value="F">
         <label for="female">Female</label><br>

@@ -51,9 +51,8 @@
 
 					if(isset($_SESSION['username'])){
 						echo ' firstname : '.$_SESSION['firstname'];
-						echo ' user : '.$_SESSION['username'];
-						echo ' userid : '.$_SESSION['userid'];
-						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
+						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'update_profile.php\'">$_SESSION['firstname']</button>';
+						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
 					}else{
 						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
 					}
