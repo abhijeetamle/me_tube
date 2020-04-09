@@ -10,7 +10,12 @@ $video_caption = $_POST['caption'];
 echo $video_caption;
 echo '<br>';
 
+$video_category = $_POST['category'];
+echo $video_category;
+echo '<br>';
+
 $success_message = '';
+$video_url = '';
 
 // check media type
 $filetype = $_FILES["file"]["type"];
@@ -79,8 +84,33 @@ else
 							
 
 				//insert into video_list table
+
+				$unique_video_id = $filename.$video_caption;
+				$unique_video_id = sha1($unique_video_id);
+				$video_url = $video_url.substr($unique_video_id,0,20);
+
+				// if video url is already present in the database; changing the video URL to be unique
+				
+				$check_url_sql = "select video_id from VIDEO_LIST where video_url = '" .$video_url. "'";
+				$result_url = mysqli_query($mysqli, $check_url_sql);
+				$row = mysqli_num_rows($result_url);
+
+				mysqli_free_result($result_url);
+				
+				while ($row > 0){
+
+					$video_url = sha1($video_url);
+					$video_url = substr($video_url,0,20);
+
+					$check_url_sql = "select video_id from VIDEO_LIST where video_url = '" .$video_url. "'";
+					$result_url = mysqli_query($mysqli, $check_url_sql);
+					$row = mysqli_num_rows($result_url);
+
+					mysqli_free_result($result_url);
+				}
+
 			//	$insert = "insert into VIDEO_LIST (file_name, file_path, video_caption, user_id) values('" .$filename. "','" .$dirfile. "','" .$filepath. "','" .$userid. "')";
-				$insert = "insert into VIDEO_LIST (file_name, file_type, caption, user_id) values('" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$userid. "')";
+				$insert = "insert into VIDEO_LIST (video_url, file_name, file_type, caption, category, user_id) values('" .$video_url. "','" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$video_category. "', '" .$userid. "')";
 				if (mysqli_query($mysqli, $insert)) {
 					$_SESSION['video_path'] = $dirfile;
 					$_SESSION['video_filename'] = $filename;
@@ -120,9 +150,24 @@ unset($_POST['caption']);
 
 // video uploaded successfully
 if (strpos($success_message, 'successfully') !== false) {
+
+	if ($mediatype == 'video') {
+		header("Location: play_video.php?url=".urlencode($video_url));
+		exit;
+	}
+	elseif ($mediatype == 'audio') {
+		header("Location: play_audio.php?url=".urlencode($video_url));
+		exit;
+	}
+	else {
+	    header("Location: show_image.php?url=".urlencode($video_url));
+		exit;
+    }
+
+
+ 
 	
-	header("Location: play_video.php?Message=".urlencode($success_message));
-	exit;
+	
 }
 // Error while uploading
 elseif (strpos($success_message, 'Error!') !== false) {

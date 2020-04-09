@@ -13,9 +13,9 @@ if (isset($_GET['url'])) {
 $userid = '';
 $mediatype = '';
 $filename = '';
-$video_caption = '';
+$image_caption = '';
 
-// msg - video_url input
+// msg - image_url input
 
 $verifySql = "SELECT * FROM VIDEO_LIST WHERE video_url = '" .$msg."'";
 $resultPass = mysqli_query($mysqli, $verifySql);
@@ -26,38 +26,30 @@ if (mysqli_num_rows($resultPass) == 1) {
     $userid = $userid.$row["user_id"];
     $mediatype = $mediatype.$row["file_type"];
     $filename = $filename.$row["file_name"];
-    $video_caption = $video_caption.$row["caption"];
+    $image_caption = $image_caption.$row["caption"];
 }
 
 
 
-$play_video_path = 'uploads/'.$userid.'/'.$mediatype.'/'.$filename;
+$show_image_path = 'uploads/'.$userid.'/'.$mediatype.'/'.$filename;
 
 
-//$play_video_path = $video_path.$video_filename;
+//$show_image_path = $image_path.$image_filename;
 
-//echo $play_video_path;
+//echo $show_image_path;
 ?>
 
 <html lang = "en">
   <head>
-  <title><?php echo $video_caption?></title>
+  <title><?php echo $image_caption?></title>
 </head>
 <body>
 
 <p>
-<video width="800px" height="500px" controls>
-  <source src=<?php echo $play_video_path?> type="video/mp4">
-  <source src=<?php echo $play_video_path?> type="video/ogg">
-  <source src=<?php echo $play_video_path?> type="video/webm">
-  Your browser does not support the video tag.
-</video>
+<img src=<?php echo $show_image_path?> alt=<?php echo $image_caption?> width="900" height="500">  
+</image>
 </p>
-<p1><?php echo $video_caption?></p1>
+<p1><?php echo $image_caption?></p1>
 
 </body>
 </html>
-
-
-
-

@@ -13,9 +13,9 @@ if (isset($_GET['url'])) {
 $userid = '';
 $mediatype = '';
 $filename = '';
-$video_caption = '';
+$audio_caption = '';
 
-// msg - video_url input
+// msg - audio_url input
 
 $verifySql = "SELECT * FROM VIDEO_LIST WHERE video_url = '" .$msg."'";
 $resultPass = mysqli_query($mysqli, $verifySql);
@@ -26,34 +26,34 @@ if (mysqli_num_rows($resultPass) == 1) {
     $userid = $userid.$row["user_id"];
     $mediatype = $mediatype.$row["file_type"];
     $filename = $filename.$row["file_name"];
-    $video_caption = $video_caption.$row["caption"];
+    $audio_caption = $audio_caption.$row["caption"];
 }
 
 
 
-$play_video_path = 'uploads/'.$userid.'/'.$mediatype.'/'.$filename;
+$play_audio_path = 'uploads/'.$userid.'/'.$mediatype.'/'.$filename;
 
 
-//$play_video_path = $video_path.$video_filename;
+//$play_audio_path = $audio_path.$audio_filename;
 
-//echo $play_video_path;
+//echo $play_audio_path;
 ?>
 
 <html lang = "en">
   <head>
-  <title><?php echo $video_caption?></title>
+  <title><?php echo $audio_caption?></title>
 </head>
 <body>
 
 <p>
-<video width="800px" height="500px" controls>
-  <source src=<?php echo $play_video_path?> type="video/mp4">
-  <source src=<?php echo $play_video_path?> type="video/ogg">
-  <source src=<?php echo $play_video_path?> type="video/webm">
-  Your browser does not support the video tag.
-</video>
+<audio width="800px" height="500px" controls>
+  <source src=<?php echo $play_audio_path?> type="audio/ogg">
+  <source src=<?php echo $play_audio_path?> type="audio/mpeg">
+  <source src=<?php echo $play_audio_path?> type="audio/wav">
+  Your browser does not support the audio tag.
+</audio>
 </p>
-<p1><?php echo $video_caption?></p1>
+<p1><?php echo $audio_caption?></p1>
 
 </body>
 </html>
