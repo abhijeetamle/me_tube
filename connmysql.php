@@ -3,7 +3,7 @@ function connect_db(){
 	global $mysqli;
 	$servername = "mysql1.cs.clemson.edu";
 	$user = 'SYSADM';
-	$password = 'passteam@g7';
+	$password = '************';
 	$database = 'TEAM_G7_goky';
 	$port = 3306;
 	$mysqli = new mysqli($servername, $user, $password, $database, $port);
