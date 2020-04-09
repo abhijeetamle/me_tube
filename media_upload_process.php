@@ -14,6 +14,10 @@ $video_category = $_POST['category'];
 echo $video_category;
 echo '<br>';
 
+$video_audience = $_POST['audience'];
+echo $video_audience;
+echo '<br>';
+
 $success_message = '';
 $video_url = '';
 
@@ -110,7 +114,8 @@ else
 				}
 
 			//	$insert = "insert into VIDEO_LIST (file_name, file_path, video_caption, user_id) values('" .$filename. "','" .$dirfile. "','" .$filepath. "','" .$userid. "')";
-				$insert = "insert into VIDEO_LIST (video_url, file_name, file_type, caption, category, user_id) values('" .$video_url. "','" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$video_category. "', '" .$userid. "')";
+				$insert = "insert into VIDEO_LIST (video_url, file_name, file_type, caption, category, user_id, audience) 
+				values('" .$video_url. "','" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$video_category. "', '" .$userid. "', '" .$video_audience. "')";
 				if (mysqli_query($mysqli, $insert)) {
 					$_SESSION['video_path'] = $dirfile;
 					$_SESSION['video_filename'] = $filename;
