@@ -6,7 +6,52 @@
 	<?php
 		ob_start();
 		session_start();
-	 ?>
+		include_once 'connmysql.php';
+		connect_db();
+
+		// get all the videos
+
+		$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+		$mediaTable = mysqli_query($mysqli, $getmedia);
+		
+		while ($row = mysqli_fetch_array($mediaTable)) {
+
+			$data_item['user_id'] = $row['user_id'];
+			$data_item['media_type'] = $row['file_type'];
+			$data_item['file_name'] = $row['file_name'];
+
+			$data_item['video_url'] = $row['video_url'];
+			$data_item['caption'] = $row["caption"];
+			$data_item['uploaded_date'] = $row["uploaded_date"];
+
+			$media_details[] = $data_item;
+
+			// storing physical media paths
+			if ($data_item['media_type'] == 'video'){
+				$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'].'#t=0.5';
+			}
+			else{
+				$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
+			}
+
+			
+			
+
+	//		echo "video_url: " . $data_item['video_url']. " - user_id: " . $data_item['user_id']. " " . $data_item['caption']. "<br>";
+		}
+//		print($items[0]['video_url']);
+//		$arr_v = $items;
+//		print_r ($arr_v);
+?>
+
+<script>
+var myVideo = document.getElementById('videoplay');
+myVideo.addEventListener('click', function () {
+	alert("Clicked on media file!!!");
+}
+
+</script>
+
 </head>
 <body>
 	<div class="container-fluid" style="margin-top:1%;" >
@@ -51,7 +96,7 @@
 
 					if(isset($_SESSION['username'])){
 						echo ' firstname : '.$_SESSION['firstname'];
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'update_profile.php\'">$_SESSION['firstname']</button>';
+						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'update_profile.php\'">Profile</button>';
 						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
 					}else{
 						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
@@ -68,12 +113,12 @@
 			<div class="col-md-3">
 				<div class="card">
 					<div class="image">
-						<img src="http://assets.materialup.com/uploads/fc97b003-ba72-4c6e-9dd3-19bf5002c244/preview.jpg" width="100%">
+						<video preload="metadata">
+							<source src="<?php echo $media_paths[0] ?>" type="video/mp4">
+						</video>
 					</div>
 					<div class="text">
-						<div class="fab"><img style="border-radius:50%; width:45px; height:45px;" src="https://www.itl.cat/pngfile/big/1-14290_minions-mischievous.jpg"></div>
-						<h3>HTML Part-I</h3>
-						<p>This is a tutorial for HTML beginners. Click for more.</p>
+						<p><?php print($media_details[0]['caption']); ?></p>
 					</div>
 				</div>
 			</div>
@@ -123,5 +168,9 @@
 	<br>
 
 	</div>
+
+
+
+
 </body>
 </html>

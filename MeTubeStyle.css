@@ -70,7 +70,7 @@ $button-width: 160px;
 }
 
 .image {
-  height: 150px;
+  height: 250px;
   opacity: .7;
   overflow: hidden;
   transition: all .2s ease-in-out;
@@ -85,7 +85,7 @@ $button-width: 160px;
 .text {
   background: #FFF;
   padding: 20px;
-  min-height: 100px;
+  min-height: 40px;
 }
 
 .text p {
