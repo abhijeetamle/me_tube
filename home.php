@@ -18,6 +18,12 @@
 				<button type="button" class="btn btn-link">Subscriptions</button>
 				<button type="button" class="btn btn-link">Library</button>
 				<button type="button" class="btn btn-link">History</button>
+				<?php
+					if(isset($_SESSION['username'])){
+						echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button> <button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>';
+					}
+
+				?>
 			</div>
 		</div>
 
@@ -34,7 +40,7 @@
 
 					if(isset($_SESSION['username'])){
 						echo 'user : '.$_SESSION['username'];
-						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
+						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button> ';
 					}else{
 						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
 					}

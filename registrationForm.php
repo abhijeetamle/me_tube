@@ -19,6 +19,7 @@
           $insertSql = "INSERT INTO USER_ACCOUNT (first_name, last_name, email_id, password, gender, dob) VALUES ('" .$_POST['firstName']. "','" .$_POST['lastName']. "','" .$_POST['email']. "','" .$_POST['pwd']. "','" .$_POST['gender']."','" .$_POST['dob']. "')";
           if (mysqli_query($mysqli, $insertSql)) {
               echo '<script>alert("New account created successfully")</script>';
+              header("Location:loginPage.php"); //not routing to loginpage
           } else {
               echo '<script>alert("Error occured while creating your account. Please make sure to use a unique username.")</script>';
           }
@@ -76,9 +77,26 @@
         <label class="form-check-label" for="exampleCheck1">I confirm that above information is correct.</label>
       </div>
       <button type="submit" class="btn btn-primary" name="regButton">Register</button>
+      <button type="button" class="btn btn-primary" name="home" onclick="location.href='home.php';">Home</button>
     </form>
   </div>
 
 </body>
 
 </html>
+
+
+<!-- 1. Redirect to home page after submit
+<timestamp> ~ <username1> ~ <msg1>
+B: msg2
+A: msg3
+B: msg4
+______________________________________________
+
+1. start chat
+2. create new log file/ open an existing log
+3. fetch chats into the DOM till now
+4. if new message sent, append into log (how to handle concurrency?)
+5. keep polling for changes to log file. If updated, refresh chats
+
+-->

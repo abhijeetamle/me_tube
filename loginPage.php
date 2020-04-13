@@ -52,6 +52,11 @@
         <input type="password" class="form-control" id="pwd1" name="pwd1" required>
       </div>
       <button type="submit" class="btn btn-primary" name="loginButton">Log in</button>
+      <button type="button" class="btn btn-primary" name="home" onclick="location.href='home.php';">Home</button>
+      <BR>
+      <div class="form-group">
+        <a href="forgotPassword.php">Forgot Password</a>
+      </div>
     </form>
   </div>
 </body>
