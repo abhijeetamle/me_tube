@@ -3,7 +3,7 @@
   connect_db();
   session_start();
 
-  $userSql = "SELECT first_name, last_name, gender, dob FROM USER_ACCOUNT WHERE email_id = '" .$_SESSION['username']."'";
+  $userSql = "SELECT first_name, last_name, gender, dob, channel FROM USER_ACCOUNT WHERE email_id = '" .$_SESSION['username']."'";
   $userResult = mysqli_query($mysqli, $userSql);
   $row = mysqli_fetch_assoc($userResult);
 
@@ -12,6 +12,7 @@
   $lastname = $row["last_name"];
   $gender = $row["gender"];
   $dob = $row["dob"];
+  $channel = $row["channel"];
 
   mysqli_free_result($userResult);
 ?>
@@ -110,10 +111,11 @@ function upPassword( $string ) {
      //   echo '<script>alert("update button clicked.")</script>';
         
         $updateSql = "UPDATE USER_ACCOUNT SET first_name = '" .$_POST['firstName']. "', last_name = '" .$_POST['lastName']. "', 
-        gender = '" .$_POST['gender']."', dob = '" .$_POST['dob']. "' WHERE email_id = '" .$_SESSION['username']."'";
+        gender = '" .$_POST['gender']."', dob = '" .$_POST['dob']. "', channel = '" .$_POST['channel']. "' WHERE email_id = '" .$_SESSION['username']."'";
         if (mysqli_query($mysqli, $updateSql)) {
        
             $_SESSION['firstname'] = $_POST["firstName"];
+            $_SESSION['channel'] = $_POST["channel"];
         
             echo '<script>alert("Account updated successfully.")</script>';
             echo '<script>location.href="home.php"</script>';
@@ -154,7 +156,8 @@ function upPassword( $string ) {
     </div>
   </form>
 
-<p1><center>Update profile information</center></p1>
+<br>
+<p style="font-size:28px;text-align:center;">Update profile information</p>
 
   <!-- This is update profile container  -->
    
@@ -164,20 +167,25 @@ function upPassword( $string ) {
     <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="<?php echo $email; ?>" disabled="disabled" required>
     <small id="emailHelp" class="form-text text-muted">E-mail id cannot be updated.</small>
     <br>
+    <br>
 
           <!-- Trigger/Open The Modal -->
     <button id="myBtn">Update Password</button>
 
     <br>
-
+    <br>
       
     <div class="form-group">
-        <label for="firstName">First name</label>
+        <label for="firstName">First Name</label>
         <input type="text" class="form-control" id="firstName" name="firstName" value="<?php echo $firstname; ?>" required>
     </div>
     <div class="form-group">
-        <label for="lastName">Last name</label>
+        <label for="lastName">Last Name</label>
         <input type="text" class="form-control" id="lastName" name="lastName" value="<?php echo $lastname; ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="lastName">My Channel Name</label>
+        <input type="text" class="form-control" id="channel" name="channel" value="<?php echo $channel; ?>" required>
     </div>
     <div class="form-group">
         <label for="gender">Gender</label><br>

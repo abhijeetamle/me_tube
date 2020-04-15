@@ -39,6 +39,7 @@
 
 	//		echo "video_url: " . $data_item['video_url']. " - user_id: " . $data_item['user_id']. " " . $data_item['caption']. "<br>";
 		}
+		mysqli_free_result($mediaTable);
 //		print($items[0]['video_url']);
 //		$arr_v = $items;
 //		print_r ($arr_v);
@@ -66,17 +67,25 @@ myVideo.addEventListener('click', function () {
 
 				<?php
 					if(isset($_SESSION['username'])){
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'contactList.php\'">My Contacts</button>';
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">My Contacts</button>';
 					}else{
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">My Contacts</button>';
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Contacts</button>';
 					}
 				?>
 
 				<?php
 					if(isset($_SESSION['username'])){
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'media_upload.php\'">Upload</button>';
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>';
 					}else{
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Upload</button>';
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>';
+					}
+				?>
+
+				<?php
+					if(isset($_SESSION['username'])){
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>';
+					}else{
+						echo '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>';
 					}
 				?>
 				

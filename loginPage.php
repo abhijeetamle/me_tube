@@ -13,7 +13,7 @@
 <body>
   <?php
       if (isset($_POST['loginButton']) && !empty($_POST['email1']) && !empty($_POST['pwd1'])) {
-        $verifySql = "SELECT user_id, first_name, password FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
+        $verifySql = "SELECT user_id, first_name, password, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
         $resultPass = mysqli_query($mysqli, $verifySql);
         if (mysqli_num_rows($resultPass) == 1) {
             $row = mysqli_fetch_assoc($resultPass);
@@ -22,6 +22,7 @@
               $_SESSION['username'] = $_POST['email1'];
               $_SESSION['userid'] = $row["user_id"];
               $_SESSION['firstname'] = $row["first_name"];
+              $_SESSION['channel'] = $row["channel"];
               $_SESSION['valid'] = true;
               echo '<script>location.href="home.php"</script>';
             }else{

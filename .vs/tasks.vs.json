@@ -10,6 +10,11 @@
       "taskLabel": "task-media_upload",
       "appliesTo": "media_upload.php",
       "type": "launch"
+    },
+    {
+      "taskLabel": "task-Visual Studio",
+      "appliesTo": "/",
+      "type": "launch"
     }
   ]
 }

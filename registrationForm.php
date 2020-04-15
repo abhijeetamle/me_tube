@@ -17,14 +17,15 @@
           echo '<script>alert("Passwords must match")</script>';
         }
         else{
-          $insertSql = "INSERT INTO USER_ACCOUNT (first_name, last_name, email_id, password, gender, dob) VALUES ('" .$_POST['firstName']. "','" .$_POST['lastName']. "','" .$_POST['email']. "','" .sha1($_POST['pwd']). "','" .$_POST['gender']."','" .$_POST['dob']. "')";
+          $insertSql = "INSERT INTO USER_ACCOUNT (first_name, last_name, email_id, password, gender, dob, channel) VALUES ('" .$_POST['firstName']. "','" .$_POST['lastName']. "','" .$_POST['email']. "','" .sha1($_POST['pwd']). "','" .$_POST['gender']."','" .$_POST['dob']. "','" .$_POST['firstName']. "')";
           if (mysqli_query($mysqli, $insertSql)) {
               
-              $useridSql = "SELECT user_id FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email'] ."'";
+              $useridSql = "SELECT user_id, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email'] ."'";
               $resultSql = mysqli_query($mysqli, $useridSql);
               $row = mysqli_fetch_assoc($resultSql);
 
               $_SESSION['userid'] = $row["user_id"];
+              $_SESSION['channel'] = $row["channel"];
               $_SESSION['username'] = $_POST['email'];
               $_SESSION['firstname'] = $_POST["firstName"];
               $_SESSION['valid'] = true;
