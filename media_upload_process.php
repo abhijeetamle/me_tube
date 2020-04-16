@@ -156,6 +156,8 @@ unset($_POST['caption']);
 // video uploaded successfully
 if (strpos($success_message, 'successfully') !== false) {
 
+	echo '<script>alert("Media uploaded successfully.")</script>';
+
 	if ($mediatype == 'video') {
 		header("Location: play_video.php?url=".urlencode($video_url));
 		exit;

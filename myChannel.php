@@ -47,13 +47,7 @@
 //		print_r ($arr_v);
 	?>
 
-<script>
-var myVideo = document.getElementById('videoplay');
-myVideo.addEventListener('click', function () {
-	alert("Clicked on media file!!!");
-}
 
-</script>
 
 </head>
 <body>
@@ -124,60 +118,43 @@ myVideo.addEventListener('click', function () {
 		<br>
 		<div class="row">
 
-		<!-- starting cards -->
+		<?php
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="image">
-						<video preload="metadata">
-							<source src="<?php echo $media_paths[0] ?>" type="video/mp4">
-						</video>
-					</div>
-					<div class="text">
-						<p><?php print($media_details[0]['caption']); ?></p>
-					</div>
-				</div>
-			</div>
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="image">
-						<img src="http://assets.materialup.com/uploads/fc97b003-ba72-4c6e-9dd3-19bf5002c244/preview.jpg" width="100%">
-					</div>
-					<div class="text">
-						<div class="fab"><img style="border-radius:50%; width:45px; height:45px;" src="https://www.itl.cat/pngfile/big/1-14290_minions-mischievous.jpg"></div>
-						<h3>HTML Part-II</h3>
-						<p>This is a tutorial for HTML beginners. Click for more.</p>
-					</div>
-				</div>
-			</div>
+	for ($x = 0; $x < count($media_details); $x++) {
+		
+		$m_url = $media_details[$x]['video_url'];
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="image">
-						<img src="http://assets.materialup.com/uploads/fc97b003-ba72-4c6e-9dd3-19bf5002c244/preview.jpg" width="100%">
-					</div>
-					<div class="text">
-						<div class="fab"><img style="border-radius:50%; width:45px; height:45px;" src="https://www.itl.cat/pngfile/big/1-14290_minions-mischievous.jpg"></div>
-						<h3>HTML Part-III</h3>
-						<p>This is a tutorial for HTML beginners. Click for more.</p>
-					</div>
-				</div>
-			</div>
+		$m_caption = $media_details[$x]['caption'];
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="image">
-						<img src="http://assets.materialup.com/uploads/fc97b003-ba72-4c6e-9dd3-19bf5002c244/preview.jpg" width="100%">
-					</div>
-					<div class="text">
-						<div class="fab"><img style="border-radius:50%; width:45px; height:45px;" src="https://www.itl.cat/pngfile/big/1-14290_minions-mischievous.jpg"></div>
-						<h3>HTML Part-IV</h3>
-						<p>This is a tutorial for HTML beginners. Click for more.</p>
-					</div>
-				</div>
-			</div>
-	<!-- ending cards-->
+		$href_url = "play_video.php?url=".urlencode($m_url);
+
+	//	echo "<a href='$href_url'>$m_caption</a>";
+		
+		echo '<br>';
+		echo '<br>';
+
+		echo "<a href='$href_url'>";
+		echo "<div class='col-md-3'>";
+				echo "<div class='card'>";
+					echo "<div class='image'>";
+						echo "<video preload='metadata'>";
+							echo "<source src='$media_paths[$x]' type='video/mp4'>";
+						echo "</video>";
+					echo "</div>";
+					echo "<div class='text'>";
+						echo "<p>$m_caption</p>";
+					echo "</div>";
+				echo "</div>";
+		echo "</div>";
+		echo "</a>";
+
+		echo '<br>';
+		echo '<br>';
+	}
+
+
+	?>
 
 	</div>
 </div>
