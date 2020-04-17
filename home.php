@@ -20,6 +20,7 @@
 			$data_item['media_type'] = $row['file_type'];
 			$data_item['file_name'] = $row['file_name'];
 
+
 			$data_item['video_url'] = $row['video_url'];
 			$data_item['caption'] = $row["caption"];
 			$data_item['uploaded_date'] = $row["uploaded_date"];
@@ -33,6 +34,7 @@
 			else{
 				$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
 			}
+
 
 			
 			
@@ -53,6 +55,18 @@ myVideo.addEventListener('click', function () {
 
 </script>
 
+
+		}
+
+	 ?>
+
+	 <script>
+	 	var myVideo = document.getElementById('videoplay');
+		myVideo.addEventListener('click', function () {
+			alert("Clicked on media file!!!");
+		}
+	 </script>
+
 </head>
 <body>
 	<div class="container-fluid" style="margin-top:1%;" >
@@ -64,6 +78,7 @@ myVideo.addEventListener('click', function () {
 				<button type="button" class="btn btn-link">Subscriptions</button>
 				<button type="button" class="btn btn-link">Library</button>
 				<button type="button" class="btn btn-link">History</button>
+
 
 				<?php
 					if(isset($_SESSION['username'])){
@@ -89,6 +104,17 @@ myVideo.addEventListener('click', function () {
 					}
 				?>
 				
+
+				<?php
+					if(isset($_SESSION['username'])){
+						echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">AProfile</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>';
+					}
+				?>
+
 			</div>
 		</div>
 
@@ -102,11 +128,15 @@ myVideo.addEventListener('click', function () {
 			</div>
 			<div class="col-sm-4">
 				<?php
-
 					if(isset($_SESSION['username'])){
+
 						echo ' firstname : '.$_SESSION['firstname'];
 						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'update_profile.php\'">Profile</button>';
 						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
+
+						echo 'user : '.$_SESSION['username'];
+						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button> ';
+
 					}else{
 						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
 					}
@@ -114,8 +144,9 @@ myVideo.addEventListener('click', function () {
 
 			</div>
 		</div>
-
+		</br>
 		<div class="row">
+
 
 		
 
@@ -159,10 +190,37 @@ myVideo.addEventListener('click', function () {
 
 	?>
 
+		<!-- starting cards -->
+		<?php
+		for ($x = 0; $x < count($media_details); $x++) {
+			$m_url = $media_details[$x]['video_url'];
+			$m_caption = $media_details[$x]['caption'];
+			$href_url = "play_video.php?url=".urlencode($m_url);
+		//	echo "<a href='$href_url'>$m_caption</a>";
+
+			echo "<a href='$href_url'>".
+						 "<div class='col-md-3'>" .
+								 "<div class='card' style='width:90%;'>" .
+									 "<div class='image' style='height:85%'>".
+										 "<video preload='metadata'>".
+											 "<source src='$media_paths[$x]' type='video/mp4'>".
+										 "</video>".
+									 "</div>".
+									 "<div class='text' >".
+										 "<p>$m_caption</p>".
+									 "</div>".
+								 "</div>".
+						 "</div>".
+						"</a>";
+
+
+
+		}
+		?>
+		<!-- ending cards-->
 	</div>
 	</div>
 	<br>
-
 	</div>
 
 

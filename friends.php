@@ -67,8 +67,11 @@ body {
 <div class="main">
   <a style="font-size:33px;"><b>My Contacts &nbsp;&nbsp;</b></a>
   <a style="font-size:28px;" id="friends">Friends</a>
+
   
-  
+
+
+
 <?php
 
 $username=$_SESSION['username'];
@@ -82,29 +85,21 @@ echo '<br>';
 echo '<br>';
 
 
-// function to get contacts from friends group 
+// function to get contacts from friends group
 
 function get_contacts_friends(){
-
     global $mysqli, $username;
-
     $grp_id_sql = "select get_USER_LIST_id('".$username."', 'Friends')";
     $grp_id = mysqli_query($mysqli, $grp_id_sql);
-
     $grp_no = '';
-
     while ( $row = $grp_id->fetch_array(MYSQLI_NUM) ) {
         $grp_no .= $row[0];
     }
-
     // get all users for friends group
     $friends_sql = "select title from CONTACT_LIST where parent_id = '".$grp_no."'";
     $friends = mysqli_query($mysqli, $friends_sql);
-
     if (mysqli_num_rows($friends) > 0){
-
         while ( $frow = $friends -> fetch_row() ) {
-
             $friend_sql = "select user_id, first_name, last_name from USER_ACCOUNT where email_id = '".$frow[0]."'";
             $friend = mysqli_query($mysqli, $friend_sql);
 
@@ -130,6 +125,12 @@ get_contacts_friends();
 ?>
 
 </div>
+
    
 </body>
 </html> 
+
+
+</body>
+</html>
+
