@@ -38,6 +38,7 @@
           }
         }
       }
+
       //close_db_connection();
    ?>
   <ul class="nav justify-content-center" style="display:flex; margin-left: 45%;">
