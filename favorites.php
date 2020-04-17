@@ -67,12 +67,12 @@ body {
 <div class="main">
   <a style="font-size:33px;"><b>My Contacts &nbsp;&nbsp;</b></a>
   <a style="font-size:28px;" id="friends">Favorites</a>
-
-
+  
+  
 <?php
 
 $username=$_SESSION['username'];
-$userid=$_SESSION['username'];
+$userid=$_SESSION['userid'];
 
 
 echo '<br>';
@@ -82,7 +82,7 @@ echo '<br>';
 echo '<br>';
 
 
-// function to get contacts from favorites group
+// function to get contacts from favorites group 
 function get_contacts_favorites(){
 
     global $mysqli, $username;
@@ -129,6 +129,6 @@ get_contacts_favorites();
 ?>
 
 </div>
-
+   
 </body>
-</html>
+</html> 

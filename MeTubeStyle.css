@@ -1,4 +1,4 @@
-/* Variables */
+﻿/* Variables */
 
 $blue: #4285f4;
 $white: #fff;
@@ -55,37 +55,28 @@ $button-width: 160px;
 /*  CARD - CSS classes*/
 
 .card {
+  height: 250px;
   display: inline-block;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
   margin: 10px;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   transition: all .2s ease-in-out;
 }
 
-.card:hover {
-  /*box-shadow: 0 5px 22px 0 rgba(0,0,0,.25);*/
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  margin-bottom: 54px;
-}
 
 .image {
-  height: 150px;
+  height: 250px;
   opacity: .7;
   overflow: hidden;
   transition: all .2s ease-in-out;
 }
 
-.image:hover,
-.card:hover .image {
-  height: 150px;
-  opacity: 1;
-}
 
 .text {
   background: #FFF;
   padding: 20px;
-  min-height: 100px;
+  min-height: 40px;
 }
 
 .text p {
@@ -109,10 +100,60 @@ $button-width: 160px;
   transition: transform .2s ease-in-out;
 }
 
-.fab:hover {
-  background: #549D3C;
-  cursor: pointer;
-  -ms-transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg);
+
+/* Download button */
+
+.btnDownload {
+background-color: DodgerBlue;
+border: none;
+color: white;
+padding: 10px 20px;
+cursor: pointer;
+font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btnDownload:hover {
+  background-color: RoyalBlue;
+}
+
+/* Media star rating */
+
+
+.starRating:not(old){
+  display        : inline-block;
+  width          : 7.5em;
+  height         : 1.5em;
+  overflow       : hidden;
+  vertical-align : center;
+}
+
+.starRating:not(old) > input{
+  margin-right : -100%;
+  opacity      : 0;
+}
+
+.starRating:not(old) > label{
+  display         : block;
+  float           : right;
+  position        : relative;
+  background      : url('star-off.svg');
+  background-size : contain;
+}
+
+.starRating:not(old) > label:before{
+  content         : '';
+  display         : block;
+  width           : 1.5em;
+  height          : 1.5em;
+  background      : url('star-on.svg');
+  background-size : contain;
+  opacity         : 0;
+  transition      : opacity 0.2s linear;
+}
+
+.starRating:not(old) > label:hover:before,
+.starRating:not(old) > label:hover ~ label:before,
+.starRating:not(:hover) > :checked ~ label:before{
+  opacity : 1;
 }

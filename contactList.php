@@ -74,8 +74,8 @@ body {
 
   <?php
 
-$username = $_SESSION['username'];
-$userid = $_SESSION['username'];
+$username=$_SESSION['username'];
+$userid=$_SESSION['userid'];
 
 //get_contacts_friends();
 //get_contacts_family();
@@ -85,6 +85,6 @@ $userid = $_SESSION['username'];
 ?>
 
 </div>
-
+   
 </body>
-</html>
+</html> 
