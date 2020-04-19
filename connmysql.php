@@ -12,6 +12,7 @@ function connect_db(){
 		die('Connect Error (' . $mysqli->connect_errno . ') '
 				. $mysqli->connect_error);
 	}
+	return $mysqli;
 }
 
 function close_db_connection(){
