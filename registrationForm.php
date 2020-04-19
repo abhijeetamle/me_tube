@@ -25,13 +25,8 @@
               $resultSql = mysqli_query($mysqli, $useridSql);
               $row = mysqli_fetch_assoc($resultSql);
 
-              $_SESSION['userid'] = $row["user_id"];
-              $_SESSION['channel'] = $row["channel"];
-              $_SESSION['username'] = $_POST['email'];
-              $_SESSION['firstname'] = $_POST["firstName"];
-              $_SESSION['valid'] = true;
               echo '<script>alert("New account created successfully")</script>';
-              echo '<script>location.href="home.php"</script>';
+              echo '<script>location.href="loginPage.php"</script>';
 
           } else {
               echo '<script>alert("Error occured while creating your account. Please make sure to use a unique username. ' .$mysqli->error .'")</script>';

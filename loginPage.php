@@ -21,7 +21,7 @@
             if(sha1($_POST['pwd1']) == $row["password"]){
 
               //log the user in, set session variables
-              $useridSql = "SELECT user_id, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
+              $useridSql = "SELECT user_id, first_name, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
               $resultSql = mysqli_query($mysqli, $useridSql);
               $row = mysqli_fetch_assoc($resultSql);
 
