@@ -176,7 +176,7 @@
 					echo "<p style='font-size:18px'>You have not uploaded any media files.</p>";
 					echo "<br>";
 					echo "<br>";
-					echo "<a href='media_upload.php'>"."<p style='font-size:18px'>Upload media files to MeTube</p>"."</a>";
+					echo "<a href='media_upload.php'>"."<p style='font-size:18px'>Upload a media file to MeTube</p>"."</a>";
 				}
 			?>
 			<!-- ending cards-->
