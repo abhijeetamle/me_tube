@@ -1,14 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+
 <?php
   include_once 'connmysql.php';
   connect_db();
   session_start();
 ?>
 
-
-<!DOCTYPE html>
-<html>
-<head>
+<title>Contacts-Friends</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 body {
   font-family: "Lato", sans-serif;
@@ -49,6 +53,12 @@ body {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+table {
+  border-collapse: separate;
+  border-spacing: 28px 15px;
+}
+
 </style>
 </head>
 <body>
@@ -62,28 +72,14 @@ body {
   <a id="blocked" onclick="location.href='blocked.php';">Blocked</a>
 </div>
 
-
-
 <div class="main">
   <a style="font-size:33px;"><b>My Contacts &nbsp;&nbsp;</b></a>
   <a style="font-size:28px;" id="friends">Friends</a>
-
-  
-
-
 
 <?php
 
 $username=$_SESSION['username'];
 $userid=$_SESSION['userid'];
-
-
-echo '<br>';
-echo '<br>';
-echo '<br>';
-echo '<br>';
-echo '<br>';
-
 
 // function to get contacts from friends group
 
@@ -92,6 +88,16 @@ function get_contacts_friends(){
     $grp_id_sql = "select get_USER_LIST_id('".$username."', 'Friends')";
     $grp_id = mysqli_query($mysqli, $grp_id_sql);
     $grp_no = '';
+
+    echo '<br>';
+    echo '<br>';
+    echo "<table>".
+        "<tr>".
+            "<th>First name</th>".
+            "<th>Last name</th>".
+            "<th colspan='2'>Update group</th>".
+        "</tr>";
+
     while ( $row = $grp_id->fetch_array(MYSQLI_NUM) ) {
         $grp_no .= $row[0];
     }
@@ -104,11 +110,22 @@ function get_contacts_friends(){
             $friend = mysqli_query($mysqli, $friend_sql);
 
             while ( $fr = $friend -> fetch_row() ) {
-                echo '<br>';
-                printf("Friend: %s  %s\n", $fr[1], $fr[2]);
-                echo '<br>';
+                
+                echo "<tr>".
+                        "<td>$fr[1]</td>".
+                        "<td>$fr[2]</td>".
+                        "<td><select id='group'>".
+                                "<option value='None'>None</option>".
+                                "<option value='Friends' selected>Friends</option>".
+                                "<option value='Family'>Family</option>".
+                                "<option value='Favorites'>Favorites</option>".
+                                "<option value='Blocked'>Blocked</option>".
+                            "</select>".
+                        "</td>".
+                        "<td><button type='button' id='update_grp' class='btn btn-link' name='group'>Update Group</button>".
+                        "</td>".
+                     "</tr>";
             }
-
             $friend -> free_result();
         }
     }
@@ -125,12 +142,9 @@ get_contacts_friends();
 ?>
 
 </div>
-
    
 </body>
 </html> 
 
-
 </body>
 </html>
-
