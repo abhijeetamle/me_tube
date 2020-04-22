@@ -45,7 +45,7 @@
 		<div class="col-sm-2">
 			<div style="display: grid;">
 				<button type="button" class="btn btn-link">Me Tube</button>
-				<button type="button" class="btn btn-link">Home</button>
+				<button type="button" class="btn btn-link" onClick="location.href=home.php">Home</button>
 				<button type="button" class="btn btn-link">Trending</button>
 				<button type="button" class="btn btn-link">Subscriptions</button>
 				<button type="button" class="btn btn-link">Library</button>
@@ -57,7 +57,18 @@
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">AProfile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>';
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
+					}
+					else{
+						
+						echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">AProfile</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Chat</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Playlist</button>';
 					}
 				?>
 			</div>
@@ -101,57 +112,58 @@
 				$href_url = "play_video.php?url=".urlencode($m_url);
 				$m_format = "video/".$m_format;
 
-				echo "<a href='$href_url'>".
-							 "<div class='col-md-3'>" .
-									 "<div class='card' style='width:90%;'>" .
-										 "<div class='image' style='height:85%'>".
-											 "<video preload='metadata'>".
-												 "<source src='$media_paths[$x]' type='$m_format'>".
-											 "</video>".
-										 "</div>".
-										 "<div class='text' >".
-											 "<p>$m_caption</p>".
-										 "</div>".
-									 "</div>".
-							 "</div>".
-					"</a>";
+				echo "<div class='col-md-3'>" .
+						"<a href='$href_url'>".
+							"<div class='card' style='width:90%;'>" .
+								"<div class='image' style='height:85%'>".
+									"<video preload='metadata'>".
+										"<source src='$media_paths[$x]' type='$m_format'>".
+									"</video>".
+								"</div>".
+								"<div class='text' >".
+									"<p style='text-align: center;'>$m_caption</p>".
+								"</div>".
+								"</a>".
+							"</div>".
+					 "</div>";
+					
 			}
 			elseif ($m_type == 'image'){
 
 				$href_url = "show_image.php?url=".urlencode($m_url);
 			
-				echo "<a href='$href_url'>".
-							 "<div class='col-md-3'>" .
-									 "<div class='card' style='width:90%;'>" .
-										 "<div class='image' style='height:85%'>".
-											"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
-										 "</div>".
-										 "<div class='text' >".
-											 "<p>$m_caption</p>".
-										 "</div>".
-									 "</div>".
-							 "</div>".
-					"</a>";
+				echo "<div class='col-md-3'>" .
+						"<a href='$href_url'>".
+							"<div class='card' style='width:90%;'>" .
+								"<div class='image' style='height:85%'>".
+									"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+								"</div>".
+								"<div class='text' >".
+									"<p style='text-align: center;'>$m_caption</p>".
+								"</div>".
+								"</a>".
+							"</div>".
+					 "</div>";
 			}
 			elseif ($m_type == 'audio'){
 
 				$href_url = "play_audio.php?url=".urlencode($m_url);
 				$m_format = "audio/".$m_format;
 			
-				echo "<a href='$href_url'>".
-							 "<div class='col-md-3'>" .
-									 "<div class='card' style='width:90%;'>" .
-										 "<div class='image' style='height:85%'>".
-											 "<audio>".
-												 "<source src='$media_paths[$x]' type='$m_format'>".
-											 "</audio>".
-										 "</div>".
-										 "<div class='text' >".
-											 "<p>$m_caption</p>".
-										 "</div>".
-									 "</div>".
-							 "</div>".
-					"</a>";
+				echo "<div class='col-md-3'>" .
+						"<a href='$href_url'>".
+							"<div class='card' style='width:90%;'>" .
+								"<div class='image' style='height:85%'>".
+									"<audio>".
+										"<source src='$media_paths[$x]' type='$m_format'>".
+									"</audio>".
+								"</div>".
+								"<div class='text' >".
+									"<p style='text-align: center;'>$m_caption</p>".
+								"</div>".
+								"</a>".
+							"</div>".
+					 "</div>";
 			}
 
 		}

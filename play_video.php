@@ -21,6 +21,7 @@ $video_caption = '';
 $rating = '';
 $views = '';
 $rated_by = '';
+$video_id = '';
 
 // msg - video_url input
 
@@ -30,6 +31,7 @@ if (mysqli_num_rows($resultPass) == 1) {
 
     $row = mysqli_fetch_assoc($resultPass);
 
+    $video_id = $video_id.$row["video_id"];
     $userid = $userid.$row["user_id"];
     $mediatype = $mediatype.$row["file_type"];
     $filename = $filename.$row["file_name"];
@@ -138,9 +140,38 @@ if (isset($_POST['rate_btn'])) {
     else {
         echo '<script>alert("Error occured while rating media. Please try again.")</script>';
     }
+}
 
+// Add to Playlist
+if (isset($_POST['playlist_btn'])) {
 
-  //  echo '<script>alert("'.$selected_rating.'")</script>';
+    $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST 
+        WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$video_id. "')";
+
+    $check_pl = mysqli_query($mysqli, $check_playlist_sql);
+    $check_playlist = $check_pl -> fetch_row();
+    $check_playlist = $check_playlist[0];
+
+    if ($check_playlist){
+        
+        echo '<script>alert("Media already added to your Playlist")</script>';    
+	}
+    else{
+        
+        $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id) 
+        values('" .$_SESSION['userid']. "','" .$video_id. "')";
+
+        if (mysqli_query($mysqli, $add_playlist_slq)){
+            
+            echo '<script>alert("Media added to your Playlist")</script>';        
+		}
+        else {
+            echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+        }
+
+	}
+
+    
     
     }
 
@@ -154,7 +185,8 @@ if (isset($_POST['comment_btn'])) {
 // Download
 if (isset($_POST['download_btn'])) {
 
-    echo '<script>alert("Inside download_btn php.")</script>';
+//    echo "<a href='$play_video_path'>download></a>";
+//    echo '<script>alert("Inside download_btn php.")</script>';
 //    echo "<a href=$play_video_path download></a>";
     //echo $play_video_path;
     
@@ -163,8 +195,8 @@ if (isset($_POST['download_btn'])) {
 ?>
 
 
-<div class="w3-container"> 
-
+<div class="w3-container" style="max-width:800px;"> 
+<form method="post">
 
 <p>
 <video width="800px" height="500px" style="margin: 0 auto; border: 5px solid #ddd;" controls>
@@ -183,10 +215,10 @@ if (isset($_POST['download_btn'])) {
 <button class="btnDownload" id="download_btn" name="download_btn"><i class="fa fa-download"></i>Download</button>
 </a>
 <small style="font-size:15px; margin-left: 10px; vertical-align:center;"><?php echo $views?> views</small>
-
+<button style="float: right; font-size:18px;" class="btn btn-link" name="playlist_btn">Add to Playlist</button>
 </p>
 
-<form method="post">
+
 
 <hr align="left" width="800px">
 
