@@ -81,10 +81,10 @@
           //get email id and selected group from that row. email cell id-> rowid+'2' dropdown->rowid+'4'
           var email_cell_id = '#'+rowid + '2';
           var dropdown_cell_id = '#'+rowid + '4';
-          alert(email_cell_id+"   "+dropdown_cell_id);
+
           var emailID = $(email_cell_id).text();
           var selectedGroup = $(dropdown_cell_id).find('select option:selected').val();
-          alert("_"+emailID + "  "+ selectedGroup );
+          
           var groupData = {"email" : emailID, "group" : selectedGroup};
           var request = $.ajax({
             url: "updateGroup.php",
