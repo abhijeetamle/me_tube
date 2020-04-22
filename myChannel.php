@@ -15,6 +15,8 @@
 		$mediaTable = mysqli_query($mysqli, $getmedia);
 
 		if (mysqli_num_rows($mediaTable) > 0) {
+
+			$hasMedia = True;
 		
 			while ($row = mysqli_fetch_array($mediaTable)) {
 
@@ -35,16 +37,11 @@
 				else{
 					$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
 				}
-
-			
-			
-
-		//		echo "video_url: " . $data_item['video_url']. " - user_id: " . $data_item['user_id']. " " . $data_item['caption']. "<br>";
 			}
 		}
-//		print($items[0]['video_url']);
-//		$arr_v = $items;
-//		print_r ($arr_v);
+		else{
+			$hasMedia = False;
+		}
 	?>
 
 
@@ -88,79 +85,103 @@
 			</div>
 		</div>
 
-	<div class="col-sm-10">
-		<div class="row" style="display:flex;">
-			<div class="input-group col-sm-8" style="display:flex;">
-			  <input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video" aria-label="Search" aria-describedby="basic-addon2">
-			  <div class="input-group-append">
-			    <button class="btn btn-light" id="basic-addon2">Search</span>
-			  </div>
+		<div class="col-sm-10">
+			<div class="row" style="display:flex;">
+				<div class="input-group col-sm-8" style="display:flex;">
+				  <input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video" aria-label="Search" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+					<button class="btn btn-light" id="basic-addon2">Search</span>
+				  </div>
+				</div>
 			</div>
-			<div class="col-sm-4">
-				<?php
+			<br>
+			<br>
+			<p style="font-size:30px;">My Channel:<a href="update_profile.php" target="_self"> <?php echo $_SESSION['channel']; ?></a></p>
+			<br>
+			<br>
+			
 
-					if(isset($_SESSION['username'])){
-						echo ' firstname : '.$_SESSION['firstname'];
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'update_profile.php\'">Profile</button>';
-						echo '<button type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button>';
-					}else{
-						echo '<button style="margin-left:80%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
+				<!-- starting cards -->
+			<?php
+
+			if ($hasMedia){
+				for ($x = 0; $x < count($media_details); $x++) {
+
+					$m_url = $media_details[$x]['video_url'];
+					$m_caption = $media_details[$x]['caption'];
+					$m_type = $media_details[$x]['media_type'];
+					$m_format = substr(strrchr($media_details[$x]['file_name'], '.'), 1 );
+
+
+					if ($m_type == 'video'){
+
+						$href_url = "play_video.php?url=".urlencode($m_url);
+						$m_format = "video/".$m_format;
+
+						echo "<a href='$href_url'>".
+									 "<div class='col-md-3'>" .
+											 "<div class='card' style='width:90%;'>" .
+												 "<div class='image' style='height:85%'>".
+													 "<video preload='metadata'>".
+														 "<source src='$media_paths[$x]' type='$m_format'>".
+													 "</video>".
+												 "</div>".
+												 "<div class='text' >".
+													 "<p>$m_caption</p>".
+												 "</div>".
+											 "</div>".
+									 "</div>".
+							"</a>";
 					}
-				?>
+					elseif ($m_type == 'image'){
 
-			</div>
+						$href_url = "show_image.php?url=".urlencode($m_url);
+			
+						echo "<a href='$href_url'>".
+									 "<div class='col-md-3'>" .
+											 "<div class='card' style='width:90%;'>" .
+												 "<div class='image' style='height:85%'>".
+													"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+												 "</div>".
+												 "<div class='text' >".
+													 "<p>$m_caption</p>".
+												 "</div>".
+											 "</div>".
+									 "</div>".
+							"</a>";
+					}
+					elseif ($m_type == 'audio'){
+
+						$href_url = "play_audio.php?url=".urlencode($m_url);
+						$m_format = "audio/".$m_format;
+			
+						echo "<a href='$href_url'>".
+									 "<div class='col-md-3'>" .
+											 "<div class='card' style='width:90%;'>" .
+												 "<div class='image' style='height:85%'>".
+													 "<audio>".
+														 "<source src='$media_paths[$x]' type='$m_format'>".
+													 "</audio>".
+												 "</div>".
+												 "<div class='text' >".
+													 "<p>$m_caption</p>".
+												 "</div>".
+											 "</div>".
+									 "</div>".
+							"</a>";
+					}
+				}
+			}
+			else{
+					echo "<p style='font-size:18px'>You have not uploaded any media files.</p>";
+					echo "<br>";
+					echo "<br>";
+					echo "<a href='media_upload.php'>"."<p style='font-size:18px'>Upload a media file to MeTube</p>"."</a>";
+				}
+			?>
+			<!-- ending cards-->
 		</div>
-
-		<br>
-		<br>
-		<p style="font-size:30px;">My Channel:<a href="update_profile.php" target="_self"> <?php echo $_SESSION['channel']; ?></a></p>
-		<br>
-		<br>
-		<div class="row">
-
-		<?php
-
-
-	for ($x = 0; $x < count($media_details); $x++) {
-		
-		$m_url = $media_details[$x]['video_url'];
-
-		$m_caption = $media_details[$x]['caption'];
-
-		$href_url = "play_video.php?url=".urlencode($m_url);
-
-	//	echo "<a href='$href_url'>$m_caption</a>";
-		
-		echo '<br>';
-		echo '<br>';
-
-		echo "<a href='$href_url'>";
-		echo "<div class='col-md-3'>";
-				echo "<div class='card'>";
-					echo "<div class='image'>";
-						echo "<video preload='metadata'>";
-							echo "<source src='$media_paths[$x]' type='video/mp4'>";
-						echo "</video>";
-					echo "</div>";
-					echo "<div class='text'>";
-						echo "<p>$m_caption</p>";
-					echo "</div>";
-				echo "</div>";
-		echo "</div>";
-		echo "</a>";
-
-		echo '<br>';
-		echo '<br>';
-	}
-
-
-	?>
-
 	</div>
-</div>
-<br>
-</div>
-
-
 </body>
+
 </html>

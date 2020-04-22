@@ -56,7 +56,8 @@
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">AProfile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>';
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>';
 					}
 				?>
 			</div>
@@ -88,25 +89,70 @@
 		<!-- starting cards -->
 		<?php
 		for ($x = 0; $x < count($media_details); $x++) {
+
 			$m_url = $media_details[$x]['video_url'];
 			$m_caption = $media_details[$x]['caption'];
-			$href_url = "play_video.php?url=".urlencode($m_url);
-		//	echo "<a href='$href_url'>$m_caption</a>";
+			$m_type = $media_details[$x]['media_type'];
+			$m_format = substr(strrchr($media_details[$x]['file_name'], '.'), 1 );
 
-			echo "<a href='$href_url'>".
-						 "<div class='col-md-3'>" .
-								 "<div class='card' style='width:90%;'>" .
-									 "<div class='image' style='height:85%'>".
-										 "<video preload='metadata'>".
-											 "<source src='$media_paths[$x]' type='video/mp4'>".
-										 "</video>".
+
+			if ($m_type == 'video'){
+
+				$href_url = "play_video.php?url=".urlencode($m_url);
+				$m_format = "video/".$m_format;
+
+				echo "<a href='$href_url'>".
+							 "<div class='col-md-3'>" .
+									 "<div class='card' style='width:90%;'>" .
+										 "<div class='image' style='height:85%'>".
+											 "<video preload='metadata'>".
+												 "<source src='$media_paths[$x]' type='$m_format'>".
+											 "</video>".
+										 "</div>".
+										 "<div class='text' >".
+											 "<p>$m_caption</p>".
+										 "</div>".
 									 "</div>".
-									 "<div class='text' >".
-										 "<p>$m_caption</p>".
+							 "</div>".
+					"</a>";
+			}
+			elseif ($m_type == 'image'){
+
+				$href_url = "show_image.php?url=".urlencode($m_url);
+			
+				echo "<a href='$href_url'>".
+							 "<div class='col-md-3'>" .
+									 "<div class='card' style='width:90%;'>" .
+										 "<div class='image' style='height:85%'>".
+											"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+										 "</div>".
+										 "<div class='text' >".
+											 "<p>$m_caption</p>".
+										 "</div>".
 									 "</div>".
-								 "</div>".
-						 "</div>".
-						"</a>";
+							 "</div>".
+					"</a>";
+			}
+			elseif ($m_type == 'audio'){
+
+				$href_url = "play_audio.php?url=".urlencode($m_url);
+				$m_format = "audio/".$m_format;
+			
+				echo "<a href='$href_url'>".
+							 "<div class='col-md-3'>" .
+									 "<div class='card' style='width:90%;'>" .
+										 "<div class='image' style='height:85%'>".
+											 "<audio>".
+												 "<source src='$media_paths[$x]' type='$m_format'>".
+											 "</audio>".
+										 "</div>".
+										 "<div class='text' >".
+											 "<p>$m_caption</p>".
+										 "</div>".
+									 "</div>".
+							 "</div>".
+					"</a>";
+			}
 
 
 		}

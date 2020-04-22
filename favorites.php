@@ -1,15 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+
 <?php
   include_once 'connmysql.php';
   connect_db();
   session_start();
 ?>
 
-
-<!DOCTYPE html>
-<html>
-<head>
+<title>Contacts-Favorites</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -49,6 +54,12 @@ body {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+table {
+  border-collapse: separate;
+  border-spacing: 28px 15px;
+}
+
 </style>
 </head>
 <body>
@@ -62,25 +73,14 @@ body {
   <a id="blocked" onclick="location.href='blocked.php';">Blocked</a>
 </div>
 
-
-
 <div class="main">
   <a style="font-size:33px;"><b>My Contacts &nbsp;&nbsp;</b></a>
   <a style="font-size:28px;" id="friends">Favorites</a>
-  
   
 <?php
 
 $username=$_SESSION['username'];
 $userid=$_SESSION['userid'];
-
-
-echo '<br>';
-echo '<br>';
-echo '<br>';
-echo '<br>';
-echo '<br>';
-
 
 // function to get contacts from favorites group 
 function get_contacts_favorites(){
@@ -92,25 +92,46 @@ function get_contacts_favorites(){
 
     $grp_no = '';
 
+    echo '<br>';
+    echo '<br>';
+    echo "<table>".
+        "<tr>".
+            "<th>First name</th>".
+            "<th>Last name</th>".
+            "<th colspan='2'>Update group</th>".
+        "</tr>";
+
     while ( $row = $grp_id->fetch_array(MYSQLI_NUM) ) {
         $grp_no .= $row[0];
     }
 
     // get all users for favorites group
-    $friends_sql = "select title from CONTACT_LIST where parent_id = '".$grp_no."'";
-    $friends = mysqli_query($mysqli, $friends_sql);
+    $favorites_sql = "select title from CONTACT_LIST where parent_id = '".$grp_no."'";
+    $favorite = mysqli_query($mysqli, $favorites_sql);
 
-    if (mysqli_num_rows($friends) > 0){
+    if (mysqli_num_rows($favorite) > 0){
 
-        while ( $frow = $friends -> fetch_row() ) {
+        while ( $frow = $favorite -> fetch_row() ) {
 
             $friend_sql = "select user_id, first_name, last_name from USER_ACCOUNT where email_id = '".$frow[0]."'";
             $friend = mysqli_query($mysqli, $friend_sql);
 
             while ( $fr = $friend -> fetch_row() ) {
-                echo '<br>';
-                printf("Friend: %s  %s\n", $fr[1], $fr[2]);
-                echo '<br>';
+                
+                echo "<tr>".
+                        "<td>$fr[1]</td>".
+                        "<td>$fr[2]</td>".
+                        "<td><select id='group'>".
+                                "<option value='None'>None</option>".
+                                "<option value='Friends'>Friends</option>".
+                                "<option value='Family'>Family</option>".
+                                "<option value='Favorites' selected>Favorites</option>".
+                                "<option value='Blocked'>Blocked</option>".
+                            "</select>".
+                        "</td>".
+                        "<td><button type='button' id='update_grp' class='btn btn-link' name='group'>Update Group</button>".
+                        "</td>".
+                     "</tr>";
             }
 
             $friend -> free_result();
@@ -121,7 +142,7 @@ function get_contacts_favorites(){
     }
 
     $grp_id -> free_result();
-    $friends -> free_result();
+    $favorite -> free_result();
 }
 
 get_contacts_favorites();
