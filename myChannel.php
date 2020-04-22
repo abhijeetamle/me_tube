@@ -116,6 +116,7 @@
 						$href_url = "play_video.php?url=".urlencode($m_url);
 						$m_format = "video/".$m_format;
 
+
 						echo "<div class='col-md-3'>" .
 								"<a href='$href_url'>".
 									"<div class='card' style='width:90%;'>" .
@@ -130,11 +131,13 @@
 										"</a>".
 									"</div>".
 							 "</div>";
+
 					}
 					elseif ($m_type == 'image'){
 
 						$href_url = "show_image.php?url=".urlencode($m_url);
 			
+
 						echo "<div class='col-md-3'>" .
 								"<a href='$href_url'>".
 									"<div class='card' style='width:90%;'>" .
@@ -147,12 +150,14 @@
 										"</a>".
 									"</div>".
 							 "</div>";
+
 					}
 					elseif ($m_type == 'audio'){
 
 						$href_url = "play_audio.php?url=".urlencode($m_url);
 						$m_format = "audio/".$m_format;
 			
+
 						echo "<div class='col-md-3'>" .
 								"<a href='$href_url'>".
 									"<div class='card' style='width:90%;'>" .
@@ -167,6 +172,7 @@
 										"</a>".
 									"</div>".
 							 "</div>";
+
 					}
 				}
 			}
