@@ -51,14 +51,10 @@
 	<div class="container-fluid" style="margin-top:1%;" >
 		<div class="col-sm-2">
 			<div style="display: grid;">
-				<button type="button" class="btn btn-link">Me Tube</button>
-				<button type="button" class="btn btn-link" onClick="location.href=home.php">Home</button>
-				<button type="button" class="btn btn-link">Trending</button>
-				<button type="button" class="btn btn-link">Subscriptions</button>
-				<button type="button" class="btn btn-link">Library</button>
-				<button type="button" class="btn btn-link">History</button>
-
 				<?php
+					echo '<button type="button" class="btn btn-link" onClick="location.href=\'home.php\'">Me Tube</button>'.
+						 '<button type="button" class="btn btn-link" onClick="location.href=\'trending.php\'">Trending</button>';
+
 					if(isset($_SESSION['username'])){
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.

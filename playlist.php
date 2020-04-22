@@ -53,14 +53,10 @@
 	<div class="container-fluid" style="margin-top:1%;" >
 		<div class="col-sm-2">
 			<div style="display: grid;">
-				<button type="button" class="btn btn-link">Me Tube</button>
-				<button type="button" class="btn btn-link" onClick="location.href=home.php">Home</button>
-				<button type="button" class="btn btn-link">Trending</button>
-				<button type="button" class="btn btn-link">Subscriptions</button>
-				<button type="button" class="btn btn-link">Library</button>
-				<button type="button" class="btn btn-link">History</button>
-
 				<?php
+					echo '<button type="button" class="btn btn-link" onClick="location.href=\'home.php\'">Me Tube</button>'.
+						 '<button type="button" class="btn btn-link" onClick="location.href=\'trending.php\'">Trending</button>';
+				
 					if(isset($_SESSION['username'])){
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.
@@ -128,8 +124,8 @@
 											"</div>".
 											"</a>".
 										"</div>".
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
-										"<button type='button' name='re_fav' class='btn btn-link'>Add to Favorites</button>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
 									"</p>".
 								"</div>";
 							
@@ -149,7 +145,9 @@
 											"</div>".
 											"</a>".
 										"</div>".
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button></p>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+									"</p>".
 								"</div>";
 					}
 					elseif ($m_type == 'audio'){
@@ -170,16 +168,19 @@
 											"</div>".
 											"</a>".
 										"</div>".
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button></p>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+									"</p>".
 								"</div>";
 					}
 				}
 			}
 			else{
-					echo "<p style='font-size:18px'>You have not uploaded any media files.</p>";
+					echo "<br>";
+					echo "<p style='font-size:20px'>You have not added any media files to Playlist.</p>";
 					echo "<br>";
 					echo "<br>";
-					echo "<a href='media_upload.php'>"."<p style='font-size:18px'>Upload a media file to MeTube</p>"."</a>";
+					echo "<a href='home.php'>"."<p style='font-size:18px'>Add media files to your Playlist.</p>"."</a>";
 				}
 			?>
 			<!-- ending cards-->

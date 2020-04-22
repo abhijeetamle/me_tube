@@ -11,7 +11,7 @@
 		connect_db();
 
 		// get all the videos
-		$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+		$getmedia = "SELECT * FROM VIDEO_LIST ORDER BY view_count desc LIMIT 20";
 		$mediaTable = mysqli_query($mysqli, $getmedia);
 
 		while ($row = mysqli_fetch_array($mediaTable)) {
