@@ -28,7 +28,7 @@
             $selectChatId = 'SELECT CHAT_ID FROM CHAT_SESSION_INFO WHERE (USER1 = "'.$user1.'" && USER2 = "'.$user2.'" ) || (USER1 = "'.$user2.'" && USER2 = "'.$user1.'" )' ;
             $chatId = mysqli_query($mysqli, $selectChatId);
             //var_dump($chatId);
-            if(! $chatId){ //if chat id  does  not exist, its a new chat create a chat id
+            if($chatId->num_rows == 0){ //if chat id  does  not exist, its a new chat create a chat id
               $currChatId = ''.substr($user1,0, strpos($user1, '@')) .substr($user2,0, strpos($user2, '@'));
               echo '<script>alert("creating new chat ID : "'.$currChatId.');</script>';
               $insertNewChatID = 'INSERT INTO CHAT_SESSION_INFO (USER1, USER2, CHAT_ID) VALUES("'.$user1.'","'.$user2.'","' .$currChatId.'")';
@@ -38,9 +38,9 @@
                 echo '<script> alert("Not Successful")</script>';
               }
             }else{
-              echo '<script>alert("Using existing chat ID");</script>';
               $row1 = mysqli_fetch_array($chatId);
               $currChatId = $row1['CHAT_ID']; //assigning chat id that was fetched from database
+              echo '<script>alert("Using existing chat ID -" ' .$currChatId.'" .. ");</script>';
               $selectChatTexts = 'SELECT * FROM CHAT_MESSAGES WHERE CHAT_ID = "' .$currChatId.'" ORDER BY SENT_TS ASC';   //fetch existing texts.
               $chatTexts = mysqli_query($mysqli, $selectChatTexts);
               //var_dump($chatTexts);
