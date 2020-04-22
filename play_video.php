@@ -168,12 +168,8 @@ if (isset($_POST['playlist_btn'])) {
         else {
             echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
         }
-
 	}
-
-    
-    
-    }
+}
 
 // Comment
 if (isset($_POST['comment_btn'])) {
@@ -208,8 +204,6 @@ if (isset($_POST['download_btn'])) {
 </p>
 <p style="font-size:22px;"><?php echo $video_caption?></p>
 
-
-
 <p>
 <a href=<?php echo $play_video_path ?> download>
 <button class="btnDownload" id="download_btn" name="download_btn"><i class="fa fa-download"></i>Download</button>
@@ -217,8 +211,6 @@ if (isset($_POST['download_btn'])) {
 <small style="font-size:15px; margin-left: 10px; vertical-align:center;"><?php echo $views?> views</small>
 <button style="float: right; font-size:18px;" class="btn btn-link" name="playlist_btn">Add to Playlist</button>
 </p>
-
-
 
 <hr align="left" width="800px">
 
