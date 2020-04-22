@@ -128,7 +128,9 @@
 											"</div>".
 											"</a>".
 										"</div>".
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button></p>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+										"<button type='button' name='re_fav' class='btn btn-link'>Add to Favorites</button>".
+									"</p>".
 								"</div>";
 							
 					}  

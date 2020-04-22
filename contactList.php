@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <title>Contacts</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -137,29 +136,20 @@
                       "<td id='".$x."2'>$c_email</td>".
                       "<td id='".$x."3'>$c_grp</td>".
                       "<td id='".$x."4'><select id='group'>".
-
                         "<option value='None'".(($c_grp=='None')?"selected='selected'":'').">None</option>".
                         "<option value='Friends'".(($c_grp=='Friends')?"selected='selected'":'').">Friends</option>".
                         "<option value='Family'".(($c_grp=='Family')?"selected='selected'":'').">Family</option>".
                         "<option value='Favorites'".(($c_grp=='Favorite')?"selected='selected'":'').">Favorites</option>".
                         "<option value='Blocked'".(($c_grp=='Block')?"selected='selected'":'').">Blocked</option>".
-
-                    "</select>".
-                "</td>".
-                "<td><button type='button' id='update_grp' class='btn btn-link' name='group'>Update Group</button>".
-                "</td>".
-         "</tr>";
-}
-
-echo "</table>";
-
-
-echo '<br>';
-
-
-?>
-
-</div>
-   
-</body>
-</html> 
+                      "</select>".
+                      "</td>".
+                      "<td id='".$x."5'><button type='button' id='update_grp' data-row='".$x."' class='btn btn-link' name='group'>Update Group</button>".
+                      "</td>".
+               "</tr>";
+      }
+      echo "</table>";
+      echo '<br>';
+      ?>
+    </div>
+  </body>
+</html>
