@@ -21,6 +21,7 @@ $filename = '';
 $image_caption = '';
 $rating = '';
 $views = '';
+$image_id = '';
 
 // msg - image_url input
 
@@ -30,6 +31,7 @@ if (mysqli_num_rows($resultPass) == 1) {
 
     $row = mysqli_fetch_assoc($resultPass);
 
+    $image_id = $image_id.$row["video_id"];
     $userid = $userid.$row["user_id"];
     $mediatype = $mediatype.$row["file_type"];
     $filename = $filename.$row["file_name"];
@@ -146,9 +148,41 @@ if (isset($_POST['download_btn'])) {
     //echo $play_video_path;
     
     }
+
+// Add to Playlist
+if (isset($_POST['playlist_btn'])) {
+
+    $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST 
+        WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$image_id. "')";
+
+    $check_pl = mysqli_query($mysqli, $check_playlist_sql);
+    $check_playlist = $check_pl -> fetch_row();
+    $check_playlist = $check_playlist[0];
+
+    if ($check_playlist){
+        
+        echo '<script>alert("Media already added to your Playlist")</script>';    
+	}
+    else{
+        
+        $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id) 
+        values('" .$_SESSION['userid']. "','" .$image_id. "')";
+
+        if (mysqli_query($mysqli, $add_playlist_slq)){
+            
+            echo '<script>alert("Media added to your Playlist")</script>';        
+		}
+        else {
+            echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+        }
+	}
+}
+
 ?>
 
-<div class="w3-container">
+<div class="w3-container" style="max-width:800px;"> 
+<form method="post">
+
 
     <p>
         <img style="margin: 0 auto; border: 5px solid #ddd;" src=<?php echo $show_image_path?> alt=<?php echo $image_caption?> width="900" height="500"></img>
@@ -160,29 +194,29 @@ if (isset($_POST['download_btn'])) {
         <button class="btnDownload" id="download_btn" name="download_btn"><i class="fa fa-download"></i>Download</button>
         </a>
     <small style="font-size:15px; margin-left: 10px; vertical-align:center;"><?php echo $views?> views</small>
+    <button style="float: right; font-size:18px;" class="btn btn-link" name="playlist_btn">Add to Playlist</button>
     </p>
 
-    <form method="post">
-        <hr align="left" width="900px">
-        <textarea rows="2" cols="50" name="comment" form="usrform" placeholder="Enter your comment"></textarea>
+    <hr align="left" width="800px">
+    <textarea rows="2" cols="50" name="comment" form="usrform" placeholder="Enter your comment"></textarea>
 
-        <span style="margin-left: 25px;" class="starRating">
-            <input id="rating1" type="radio" name="rating" value="1"  <?php echo ($rating_int=='1')?'checked':'' ?>>
-            <label for="rating1">1</label>
-            <input id="rating2" type="radio" name="rating" value="2"  <?php echo ($rating_int=='2')?'checked':'' ?>>
-            <label for="rating2">2</label>
-            <input id="rating3" type="radio" name="rating" value="3"  <?php echo ($rating_int=='3')?'checked':'' ?>>
-            <label for="rating3">3</label>
-            <input id="rating4" type="radio" name="rating" value="4"  <?php echo ($rating_int=='4')?'checked':'' ?>>
-            <label for="rating4">4</label>
-            <input id="rating5" type="radio" name="rating" value="5"  <?php echo ($rating_int=='5')?'checked':'' ?>>
-            <label for="rating5">5</label>
-        </span>
-        <button type="submit" class="btn btn-link" name="rate_btn">Rate</button>
-        <br>
-        <button style="margin-left:15px" type="submit" class="btn btn-link" name="comment_btn">Comment</button>
+    <span style="margin-left: 25px;" class="starRating">
+        <input id="rating1" type="radio" name="rating" value="1"  <?php echo ($rating_int=='1')?'checked':'' ?>>
+        <label for="rating1">1</label>
+        <input id="rating2" type="radio" name="rating" value="2"  <?php echo ($rating_int=='2')?'checked':'' ?>>
+        <label for="rating2">2</label>
+        <input id="rating3" type="radio" name="rating" value="3"  <?php echo ($rating_int=='3')?'checked':'' ?>>
+        <label for="rating3">3</label>
+        <input id="rating4" type="radio" name="rating" value="4"  <?php echo ($rating_int=='4')?'checked':'' ?>>
+        <label for="rating4">4</label>
+        <input id="rating5" type="radio" name="rating" value="5"  <?php echo ($rating_int=='5')?'checked':'' ?>>
+        <label for="rating5">5</label>
+    </span>
+    <button type="submit" class="btn btn-link" name="rate_btn">Rate</button>
+    <br>
+    <button style="margin-left:15px" type="submit" class="btn btn-link" name="comment_btn">Comment</button>
 
-    </form>
+</form>
 </div>
 
 </body>

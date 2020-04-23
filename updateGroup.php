@@ -5,11 +5,15 @@
   $emailToAdd = $_POST['email'];
   $groupToAdd = $_POST['group'];
 
-  //write your code here
+  if ($groupToAdd == 'Favorites'){
+    $groupToAdd = 'Favorite';
+  }
+  elseif ($groupToAdd == 'Blocked') {
+    $groupToAdd = 'Block';
+  }
 
-  //  $updateGroupSql = "";
-  //  $result = mysqli_query($mysqli, $insertMsgSql);
-
+  $updateGroupSql = "call add_contact('".$_SESSION['username']."','" .$emailToAdd. "', '" .$groupToAdd. "')";
+  $result = mysqli_query($mysqli, $updateGroupSql);
 
   echo '<script>alert("Done updating");</script>';
 

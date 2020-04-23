@@ -9,9 +9,11 @@
 		include_once 'connmysql.php';
 		connect_db();
 
-		// get all the videos
+		// get all the videos from playlist
 
-		$getmedia = "SELECT * FROM VIDEO_LIST WHERE user_id = '" .$_SESSION['userid']."'";
+		$getmedia = "SELECT * FROM VIDEO_LIST WHERE video_id IN 
+			(SELECT video_id from FAVORITE_LIST WHERE user_id = '" .$_SESSION['userid']."')";
+		
 		$mediaTable = mysqli_query($mysqli, $getmedia);
 
 		if (mysqli_num_rows($mediaTable) > 0) {
@@ -62,7 +64,7 @@
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My PlayList</button>';
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
 					}
 					else{
 						
@@ -72,7 +74,7 @@
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Chat</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My PlayList</button>';
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Playlist</button>';
 					}
 				?>
 				
@@ -90,11 +92,9 @@
 			</div>
 			<br>
 			<br>
-			<p style="font-size:30px;">My Channel:<a href="update_profile.php" target="_self"> <?php echo $_SESSION['channel']; ?></a></p>
-			<br>
+			<p style="font-size:30px;">My Favorite list</p>
 			<br>
 			
-
 				<!-- starting cards -->
 			<?php
 
@@ -106,77 +106,78 @@
 					$m_type = $media_details[$x]['media_type'];
 					$m_format = substr(strrchr($media_details[$x]['file_name'], '.'), 1 );
 
-
 					if ($m_type == 'video'){
 
 						$href_url = "play_video.php?url=".urlencode($m_url);
 						$m_format = "video/".$m_format;
-
-
-						echo "<div class='col-md-3'>" .
-								"<a href='$href_url'>".
-									"<div class='card' style='width:90%;'>" .
-										"<div class='image' style='height:85%'>".
-											"<video preload='metadata'>".
-												"<source src='$media_paths[$x]' type='$m_format'>".
-											"</video>".
+						 
+						echo	"<div class='col-md-3'>" .
+									"<a href='$href_url'>".
+										"<div class='card' style='width:90%;'>" .
+											"<div class='image' style='height:85%'>".
+												"<video preload='metadata'>".
+													"<source src='$media_paths[$x]' type='$m_format'>".
+												"</video>".
+											"</div>".
+											"<div class='text' >".
+												"<p style='text-align: center;'>$m_caption</p>".
+											"</div>".
+											"</a>".
 										"</div>".
-										"<div class='text' >".
-											"<p style='text-align: center;'>$m_caption</p>".
-										"</div>".
-										"</a>".
-									"</div>".
-							 "</div>";
-
-					}
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_fav' class='btn btn-link'>Remove from Favorite list</button>".
+									"</p>".
+								"</div>";
+							
+					}  
 					elseif ($m_type == 'image'){
 
 						$href_url = "show_image.php?url=".urlencode($m_url);
 			
-
-						echo "<div class='col-md-3'>" .
-								"<a href='$href_url'>".
-									"<div class='card' style='width:90%;'>" .
-										"<div class='image' style='height:85%'>".
-											"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+						echo	"<div class='col-md-3'>" .
+									"<a href='$href_url'>".
+										"<div class='card' style='width:90%;'>" .
+											"<div class='image' style='height:85%'>".
+												"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+											"</div>".
+											"<div class='text' >".
+												"<p style='text-align: center;'>$m_caption</p>".
+											"</div>".
+											"</a>".
 										"</div>".
-										"<div class='text' >".
-											"<p style='text-align: center;'>$m_caption</p>".
-										"</div>".
-										"</a>".
-									"</div>".
-							 "</div>";
-
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_fav' class='btn btn-link'>Remove from Favorite list</button>".
+									"</p>".
+								"</div>";
 					}
 					elseif ($m_type == 'audio'){
 
 						$href_url = "play_audio.php?url=".urlencode($m_url);
 						$m_format = "audio/".$m_format;
 			
-
-						echo "<div class='col-md-3'>" .
-								"<a href='$href_url'>".
-									"<div class='card' style='width:90%;'>" .
-										"<div class='image' style='height:85%'>".
-											"<audio>".
-												"<source src='$media_paths[$x]' type='$m_format'>".
-											"</audio>".
+						echo	"<div class='col-md-3'>" .
+									"<a href='$href_url'>".
+										"<div class='card' style='width:90%;'>" .
+											"<div class='image' style='height:85%'>".
+												"<audio>".
+													"<source src='$media_paths[$x]' type='$m_format'>".
+												"</audio>".
+											"</div>".
+											"<div class='text' >".
+												"<p style='text-align: center;'>$m_caption</p>".
+											"</div>".
+											"</a>".
 										"</div>".
-										"<div class='text' >".
-											"<p style='text-align: center;'>$m_caption</p>".
-										"</div>".
-										"</a>".
-									"</div>".
-							 "</div>";
-
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' name='re_fav' class='btn btn-link'>Remove from Favorite list</button>".
+									"</p>".
+								"</div>";
 					}
 				}
 			}
 			else{
-					echo "<p style='font-size:18px'>You have not uploaded any media files.</p>";
+					echo "<br>";
+					echo "<p style='font-size:20px'>You have not any media files added to Favorite list.</p>";
 					echo "<br>";
 					echo "<br>";
-					echo "<a href='media_upload.php'>"."<p style='font-size:18px'>Upload a media file to MeTube</p>"."</a>";
+					echo "<a href='playlist.php'>"."<p style='font-size:18px'>Add media files to Favorite list</p>"."</a>";
 				}
 			?>
 			<!-- ending cards-->

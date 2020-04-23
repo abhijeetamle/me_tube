@@ -14,6 +14,10 @@ $video_category = $_POST['category'];
 echo $video_category;
 echo '<br>';
 
+$video_category = $_POST['tags'];
+echo $video_tags;
+echo '<br>';
+
 $video_audience = $_POST['audience'];
 echo $video_audience;
 echo '<br>';
@@ -55,7 +59,7 @@ else
 {
 	$upfile = $dirfile.urlencode($_FILES["file"]["name"]);
 //  echo $upfile;
-	  
+
 	if(file_exists($upfile))
 	{
 	  	$result="5"; //The file has been uploaded.
@@ -79,13 +83,13 @@ else
 				echo '<br>';
 				echo $dirfile;
 				echo '<br>';
-					
+
 				echo $filetype;
 				echo '<br>';
 				echo $userid;
 				echo '<br>';
 
-							
+
 
 				//insert into video_list table
 
@@ -94,13 +98,13 @@ else
 				$video_url = $video_url.substr($unique_video_id,0,20);
 
 				// if video url is already present in the database; changing the video URL to be unique
-				
+
 				$check_url_sql = "select video_id from VIDEO_LIST where video_url = '" .$video_url. "'";
 				$result_url = mysqli_query($mysqli, $check_url_sql);
 				$row = mysqli_num_rows($result_url);
 
 				mysqli_free_result($result_url);
-				
+
 				while ($row > 0){
 
 					$video_url = sha1($video_url);
@@ -114,8 +118,8 @@ else
 				}
 
 			//	$insert = "insert into VIDEO_LIST (file_name, file_path, video_caption, user_id) values('" .$filename. "','" .$dirfile. "','" .$filepath. "','" .$userid. "')";
-				$insert = "insert into VIDEO_LIST (video_url, file_name, file_type, caption, category, user_id, audience) 
-				values('" .$video_url. "','" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$video_category. "', '" .$userid. "', '" .$video_audience. "')";
+				$insert = "insert into VIDEO_LIST (video_url, file_name, file_type, caption, category, tags, user_id, audience)
+				values('" .$video_url. "','" .$filename. "', '" .$mediatype. "', '" .$video_caption. "', '" .$video_category. "', '" .$video_tags. "', '" .$userid. "', '" .$video_audience. "')";
 				if (mysqli_query($mysqli, $insert)) {
 					$_SESSION['video_path'] = $dirfile;
 					$_SESSION['video_filename'] = $filename;
@@ -124,7 +128,7 @@ else
 			//		echo $_SESSION['play_video_path'];
 					echo '<br>';
 					$success_message .= "Media file uploaded successfully";
-					
+
 					echo '<br>';
 					echo $success_message;
 				} else {
@@ -135,10 +139,10 @@ else
 					//printf("Connect failed: %s\n", $mysqli->connect_error);
 				}
 				$result="0";
-					
+
 			}
 		}
-		else  
+		else
 		{
 				$result="7"; //upload file failed
 				$success_message .= "Error! Please try again.";
@@ -149,7 +153,7 @@ else
 		}
 	}
 }
-	
+
 
 unset($_POST['caption']);
 
@@ -172,23 +176,22 @@ if (strpos($success_message, 'successfully') !== false) {
     }
 
 
- 
-	
-	
+
+
+
 }
 // Error while uploading
 elseif (strpos($success_message, 'Error!') !== false) {
-	
+
 	header("Location: media_upload.php?Message=".urlencode($success_message));
 	exit;
 }
 // if any error is not caught by the above conditions, then it will be redirected to home page
 else {
-	
+
 	header("Location: home.php?Message=".urlencode($success_message));
 	exit;
 }
 
 
 ?>
-

@@ -6,7 +6,108 @@ $black: #000;
 $gray: #ccc;
 $button-width: 160px;
 
+/*Comment box style*/
+
+.comment-box {
+	border-style: groove;
+    width: 68%;
+    border-radius: 7px;
+    border-color: #9e9e9e1c;
+}
+.thumbnail {
+    padding:0px;
+}
+.panel {
+	position:relative;
+}
+.panel>.panel-heading:after,.panel>.panel-heading:before{
+	position:absolute;
+	top:11px;left:-16px;
+	right:100%;
+	width:0;
+	height:0;
+	display:block;
+	content:" ";
+	border-color:transparent;
+	border-style:solid solid outset;
+	pointer-events:none;
+}
+.panel>.panel-heading:after{
+	border-width:7px;
+	border-right-color:#f7f7f7;
+	margin-top:1px;
+	margin-left:2px;
+}
+.panel>.panel-heading:before{
+	border-right-color:#ddd;
+	border-width:8px;
+}
+/*Comment box style ends*/
+
 /* Search box styles */
+/*chat screen nav bar starts*/
+.vertical-nav {
+  min-width: 17rem;
+  width: 17rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+}
+
+/* for toggle behavior */
+
+#sidebar.active {
+  margin-left: -17rem;
+}
+
+#content.active {
+  width: 100%;
+  margin: 0;
+}
+/*chat screen nav bar ends*/
+
+/*chat message style starts*/
+.chatRight {
+  background-color: rgba(255,255,255,.1);
+  margin-left: 50%;
+  border-color: rgba(255,255,255,.15);
+  border-style: groove;
+  border-radius: 7px;
+  text-align: justify;
+  width: auto;
+  font-style: italic;
+}
+
+.chatLeft {
+  margin-left: 15%;
+  background-color: rgba(255,255,255,.1);
+  border-color: rgba(0, 188, 212, 0.14);;
+  border-style: groove;
+  border-radius: 7px;
+  text-align: justify;
+  width: fit-content;
+  font-style: italic;
+}
+/*chat message style*/
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -17rem;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+  #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+}
 
 .search {
   width: 50%;
