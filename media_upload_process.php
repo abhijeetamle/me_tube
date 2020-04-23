@@ -14,7 +14,7 @@ $video_category = $_POST['category'];
 echo $video_category;
 echo '<br>';
 
-$video_category = $_POST['tags'];
+$video_tags = $_POST['tags'];
 echo $video_tags;
 echo '<br>';
 
