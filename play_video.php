@@ -1,105 +1,27 @@
 ﻿<html>
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <?php
+      session_start();
+      include_once 'connmysql.php';
+      connect_db();
+  ?>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
-  <?php
-
-session_start();
-include_once 'connmysql.php';
-connect_db();
-
-if (isset($_GET['url'])) {
-    $msg = $_GET['url'];
-//    echo "<script>alert('$msg');</script>";
-}
-
-
-$userid = '';
-$mediatype = '';
-$filename = '';
-$video_caption = '';
-$rating = '';
-$views = '';
-$rated_by = '';
-$video_id = '';
-
-// msg - video_url input
-
-$verifySql = "SELECT * FROM VIDEO_LIST WHERE video_url = '" .$msg."'";
-$resultPass = mysqli_query($mysqli, $verifySql);
-if (mysqli_num_rows($resultPass) == 1) {
-
-    $row = mysqli_fetch_assoc($resultPass);
-
-    $video_id = $video_id.$row["video_id"];
-    $userid = $userid.$row["user_id"];
-    $mediatype = $mediatype.$row["file_type"];
-    $filename = $filename.$row["file_name"];
-    $video_caption = $video_caption.$row["caption"];
-    $views = $views.$row["view_count"];
-    $rating = $rating.$row["rating"];
-    $rated_by = $rated_by.$row["rated_by"];
-    
-    
-}
-
-$views = $views+1;
-$add_view_sql = "UPDATE VIDEO_LIST SET view_count = '".$views."' WHERE video_url = '" .$msg."'";
-$view_add_sql = mysqli_query($mysqli, $add_view_sql);
-
-
-
-$play_video_path = 'uploads/'.$userid.'/'.$mediatype.'/'.$filename;
-
-
-//$play_video_path = $video_path.$video_filename;
-
-//echo $play_video_path;
-
-
-// rounding off the rating value to int 
-$rating_int = round($rating);
-
-if ($rating_int == 2){
-	$rating_int = 4;
-}
-else if ($rating_int == 1){
-	$rating_int = 5;
-}
-else if ($rating_int == 4){
-	$rating_int = 2;
-}
-else if ($rating_int == 5){
-	$rating_int = 1;
-}
-else if ($rating_int == 3){
-	$rating_int = 3;
-}
-else {
-	$rating_int = 4;
-}
-
-?>
-
-<title><?php echo $video_caption?></title>
-
-<style>
-
-.w3-container {
-    margin-left  : 120px;
-    margin-right : 16px;
-    margin-top   : 16px;
-    margin-bottom: 16px;
-}
-
-hr {
-    margin-top: 1%; 
-    margin-bottom: 1%;
-}
-
-</style>
-
+  <title><?php echo $video_caption?></title>
+    <style>
+    .w3-container {
+        margin-left  : 120px;
+        margin-right : 16px;
+        margin-top   : 16px;
+        margin-bottom: 16px;
+    }
+    hr {
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+  </style>
   </head>
 <body>
   <div class="col-sm-1">
@@ -225,7 +147,6 @@ hr {
         $check_pl = mysqli_query($mysqli, $check_playlist_sql);
         $check_playlist = $check_pl -> fetch_row();
         $check_playlist = $check_playlist[0];
-
 
         if ($check_playlist){
 
