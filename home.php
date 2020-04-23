@@ -3,6 +3,10 @@
 <title>Me Tube</title>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+
+
 	<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
 	<?php
 		ob_start();
@@ -12,6 +16,9 @@
 
 		// get all the videos
 		$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+
+		//if search box contains something, append with where clause
+
 		$mediaTable = mysqli_query($mysqli, $getmedia);
 
 		while ($row = mysqli_fetch_array($mediaTable)) {
@@ -36,7 +43,8 @@
 <style>
 
 hr {
-    margin-top: 0.5%; 
+
+    margin-top: 0.5%;
     margin-bottom: 0.5%;
 }
 
@@ -60,7 +68,7 @@ hr {
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
 					}
 					else{
-						
+
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">AProfile</button>'.
@@ -76,9 +84,11 @@ hr {
 	<div class="col-sm-10">
 		<div class="row" style="display:flex;">
 			<div class="input-group col-sm-8" style="display:flex;">
-			  <input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video" aria-label="Search" aria-describedby="basic-addon2">
+
+			  <input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video" aria-label="Search" aria-describedby="searchBtn">
 			  <div class="input-group-append">
-			    <button class="btn btn-light" id="basic-addon2">Search</span>
+			    <button class="btn btn-light" id="searchBtn">Search</span>
+
 			  </div>
 			</div>
 			<div class="col-sm-4">
@@ -96,7 +106,9 @@ hr {
 		</br>
 		<div class="row">
 
-		<select id="media_date">
+
+		<select style="margin-left: 75%;" id="media_date">
+
 			<option label="Date">Date</option>
 			<option value="Latest">Latest</option>
 			<option value="Oldest">Oldest</option>
@@ -148,17 +160,21 @@ hr {
 								"</a>".
 							"</div>".
 					 "</div>";
-					
-			}
-			elseif ($m_type == 'image'){
 
-				$href_url = "show_image.php?url=".urlencode($m_url);
-			
+			}
+			elseif ($m_type == 'audio'){
+				$href_url = "play_audio.php?url=".urlencode($m_url);
+				$m_format = "audio/".$m_format;
+
 				echo "<div class='col-md-3'>" .
 						"<a href='$href_url'>".
 							"<div class='card' style='width:90%;'>" .
 								"<div class='image' style='height:85%'>".
-									"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+
+									"<audio>".
+										"<source src='$media_paths[$x]' type='$m_format'>".
+									"</audio>".
+
 								"</div>".
 								"<div class='text' >".
 									"<p style='text-align: center;'>$m_caption</p>".
@@ -167,18 +183,17 @@ hr {
 							"</div>".
 					 "</div>";
 			}
-			elseif ($m_type == 'audio'){
 
-				$href_url = "play_audio.php?url=".urlencode($m_url);
-				$m_format = "audio/".$m_format;
-			
+			elseif ($m_type == 'image'){
+				$href_url = "show_image.php?url=".urlencode($m_url);
+
 				echo "<div class='col-md-3'>" .
 						"<a href='$href_url'>".
 							"<div class='card' style='width:90%;'>" .
 								"<div class='image' style='height:85%'>".
-									"<audio>".
-										"<source src='$media_paths[$x]' type='$m_format'>".
-									"</audio>".
+
+									"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+
 								"</div>".
 								"<div class='text' >".
 									"<p style='text-align: center;'>$m_caption</p>".

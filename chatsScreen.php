@@ -7,7 +7,8 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container" style=" margin-top:1%;" >
@@ -46,21 +47,30 @@
               //var_dump($chatTexts);
             }
             $_SESSION['chat_id'] = $currChatId;
-            echo '<h4>User: '.$_SESSION['user2_name'].'</h4>';
+            echo '<h4>User: '.$_SESSION['user2_name'].'</h4> <hr align="left" width="800px">';
             if($chatTexts != null){
               while ($row = mysqli_fetch_array($chatTexts)) {
-                if($row['USERNAME'] == $_SESSION['username']){//Change text card orientation to right aligned
-                  echo'<p class="font-weight-light" style="background-color:aliceblue; margin-left: 50%;">'.$row['MESSAGE'].'</p>';
-                }else{//left aligned
-                  echo'<p class="font-weight-light" style="background-color:aliceblue; margin-left: 2%;">'.$row['MESSAGE'].'</p>';
+                if($row['MESSAGE'] != ''){
+                  if($row['USERNAME'] == $_SESSION['username']){//Change text card orientation to right aligned
+                    echo'<p class="chatRight">'.$row['MESSAGE'].'</p>';
+                  }else{//left aligned
+                    echo'<p class="chatLeft" >'.$row['MESSAGE'].'</p>';
+                  }
                 }
               }
             }
           ?>
-            <textarea id="inputMsg" rows="5" cols="100" style="margin-left: 20%; margin-top:60%;" name="inputMsg"></textarea>
+            <textarea id="inputMsg" rows="5" cols="100" style="margin-left: 20%; margin-top:50%;" name="inputMsg"></textarea>
             <button class="btn btn-primary" id="sendMsgBtn">Send</button>
         </div>
       </div>
     </div>
   </body>
 </html>
+<!--
+    background-color: rgba(255,255,255,.1);
+    margin-left: 50%;
+    border-color: rgba(255,255,255,.15);
+    border-style: groove;
+    border-radius: 7px;
+ -->
