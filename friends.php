@@ -7,6 +7,7 @@
   connect_db();
   session_start();
 ?>
+<!-- This is a comment -->
 
 <title>Contacts-Friends</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
