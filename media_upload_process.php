@@ -43,14 +43,16 @@ echo '<br>';
 
 // Directory to upload Media
 $dirfile = 'uploads/'.$userid.'/'.$mediatype.'/';
-
+$tempDir = 'uploads/'.$userid.'/';
 echo $dirfile;
 echo '<br>';
 
 //Create Directory if doesn't exist
-if(!file_exists($dirfile))
-	mkdir($dirfile, 0744, true);
-
+if(!file_exists($dirfile)){
+	mkdir($dirfile, 0755, true);
+	chmod($tempDir, 0755);
+	chmod($dirfile, 0755);
+}
 
 if($_FILES["file"]["error"] > 0 )
 { $result=$_FILES["file"]["error"];
@@ -88,9 +90,7 @@ else
 				echo '<br>';
 				echo $userid;
 				echo '<br>';
-
-
-
+				chmod($upfile, 0755);
 				//insert into video_list table
 
 				$unique_video_id = $filename.$video_caption;
