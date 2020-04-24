@@ -157,6 +157,7 @@ hr {
 			<option value="Animation">Animation</option>
 			<option value="Nature">Nature</option>
 			<option value="Music">Music</option>
+			<option value="Animal">Animal</option>
 		</select>
 
 		<hr align="right" width="1230px">
