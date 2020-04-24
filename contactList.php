@@ -3,8 +3,10 @@
   <head>
     <title>Contacts</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="toastify.js"></script>
     <link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
+    <link rel="stylesheet" type="text/css" href="toastify.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <?php
@@ -27,9 +29,9 @@
     ?>
 
     <style>
-      body {
+      /* body {
         font-family: "Lato", sans-serif;
-      }
+      } */
       .sidenav {
         height: 100%;
         width: 160px;
@@ -37,15 +39,15 @@
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #111;
+        background-color: rgba(245, 245, 245, 0.4117647058823529);
         overflow-x: hidden;
         padding-top: 20px;
       }
       .sidenav a {
         padding: 6px 8px 6px 16px;
         text-decoration: none;
-        font-size: 25px;
-        color: #818181;
+        font-size: 18px;
+        color: #337ab7;
         display: block;
       }
       .sidenav a:hover {
@@ -84,7 +86,7 @@
 
           var emailID = $(email_cell_id).text();
           var selectedGroup = $(dropdown_cell_id).find('select option:selected').val();
-          
+
           var groupData = {"email" : emailID, "group" : selectedGroup};
           var request = $.ajax({
             url: "updateGroup.php",
@@ -93,6 +95,12 @@
           });
           request.done(function (response, textStatus, jqXHR){
               console.log("Request completed!");
+              var myToast = Toastify({
+                   text: "Contacts updated successfully",
+                   duration: 5000
+              });
+              myToast.showToast();
+              //show a toast with update Successful message
           });
           request.fail(function (jqXHR, textStatus, errorThrown){
               console.error(
@@ -111,6 +119,7 @@
       <a id="family" onclick="location.href='family.php';">Family</a>
       <a id="favorites" onclick="location.href='favorites.php';">Favorites</a>
       <a id="blocked" onclick="location.href='blocked.php';">Blocked</a>
+      <a onClick="location.href='home.php';">Me Tube</a>
     </div>
 
     <div class="main">

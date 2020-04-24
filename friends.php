@@ -7,16 +7,20 @@
   connect_db();
   session_start();
 ?>
+<!-- This is a comment -->
 
 <title>Contacts-Friends</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+<script src="toastify.js"></script>
 <link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
+<link rel="stylesheet" type="text/css" href="toastify.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
+/* body {
   font-family: "Lato", sans-serif;
-}
+} */
 
 .sidenav {
   height: 100%;
@@ -25,7 +29,7 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: rgba(245, 245, 245, 0.4117647058823529);
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -33,8 +37,8 @@ body {
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  font-size: 18px;
+  color: #337ab7;
   display: block;
 }
 
@@ -63,6 +67,40 @@ table {
 </head>
 <body>
 
+  <script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+      $('.btn-link').click(function() {
+        var rowid =  $(this).data('row');
+        var email_cell_id = '#'+rowid + '2';
+        var dropdown_cell_id = '#'+rowid + '3';
+
+        var emailID = $(email_cell_id).text();
+        var selectedGroup = $(dropdown_cell_id).find('select option:selected').val();
+
+        var groupData = {"email" : emailID, "group" : selectedGroup};
+        var request = $.ajax({
+          url: "updateGroup.php",
+          type: "post",
+          data: groupData
+        });
+        request.done(function (response, textStatus, jqXHR){
+            console.log("Request completed!");
+            var myToast = Toastify({
+                 text: "Contacts updated successfully",
+                 duration: 5000
+            });
+            myToast.showToast();
+        });
+        request.fail(function (jqXHR, textStatus, errorThrown){
+            console.error(
+                "Could not complete the request. The following error occured: "+
+                textStatus, errorThrown
+            );
+        });
+      });
+    });
+  </script>
+
 <div class="sidenav">
   <a id="all" style="font-size:30px;" onclick="location.href='contactList.php';">All</a>
   <br>
@@ -70,6 +108,7 @@ table {
   <a id="family" onclick="location.href='family.php';">Family</a>
   <a id="favorites" onclick="location.href='favorites.php';">Favorites</a>
   <a id="blocked" onclick="location.href='blocked.php';">Blocked</a>
+  <a onClick="location.href='home.php';">Me Tube</a>
 </div>
 
 <div class="main">
@@ -93,8 +132,8 @@ function get_contacts_friends(){
     echo '<br>';
     echo "<table>".
         "<tr>".
-            "<th>First name</th>".
-            "<th>Last name</th>".
+            "<th>Name</th>".
+            "<th>Email</th>".
             "<th colspan='2'>Update group</th>".
         "</tr>";
 
@@ -105,16 +144,16 @@ function get_contacts_friends(){
     $friends_sql = "select title from CONTACT_LIST where parent_id = '".$grp_no."'";
     $friends = mysqli_query($mysqli, $friends_sql);
     if (mysqli_num_rows($friends) > 0){
+        $rowCount = 0;
         while ( $frow = $friends -> fetch_row() ) {
+            $rowCount++;
             $friend_sql = "select user_id, first_name, last_name from USER_ACCOUNT where email_id = '".$frow[0]."'";
             $friend = mysqli_query($mysqli, $friend_sql);
-
             while ( $fr = $friend -> fetch_row() ) {
-                
                 echo "<tr>".
-                        "<td>$fr[1]</td>".
-                        "<td>$fr[2]</td>".
-                        "<td><select id='group'>".
+                        "<td id='".$rowCount."1'>".$fr[1]." ".$fr[2]."</td>".
+                        "<td id='".$rowCount."2'>$frow[0]</td>".
+                        "<td id='".$rowCount."3'><select id='group'>".
                                 "<option value='None'>None</option>".
                                 "<option value='Friends' selected>Friends</option>".
                                 "<option value='Family'>Family</option>".
@@ -122,7 +161,7 @@ function get_contacts_friends(){
                                 "<option value='Blocked'>Blocked</option>".
                             "</select>".
                         "</td>".
-                        "<td><button type='button' id='update_grp' class='btn btn-link' name='group'>Update Group</button>".
+                        "<td id='".$rowCount."4'><button type='button' id='update_grp' data-row='".$rowCount."' class='btn btn-link' name='group'>Update Group</button>".
                         "</td>".
                      "</tr>";
             }
@@ -142,9 +181,9 @@ get_contacts_friends();
 ?>
 
 </div>
-   
+
 </body>
-</html> 
+</html>
 
 </body>
 </html>

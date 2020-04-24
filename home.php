@@ -6,38 +6,48 @@
 
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 
-
 	<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 	<?php
 		ob_start();
 		session_start();
 		include_once 'connmysql.php';
 		connect_db();
 
-		// get all the videos
-		$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+		$getmedia = "";
+		global $mediaTable;
+			if(isset($_SESSION['searchText'])){
+				$searchTxt = $_SESSION['searchText'];
+				$getmedia = "SELECT * FROM VIDEO_LIST WHERE caption LIKE '%$searchTxt%' OR category LIKE '%$searchTxt%' OR tags LIKE '%$searchTxt%' LIMIT 20";
+				echo'<script>alert('.$getmedia.')</script>';
+				$_SESSION['searchText'] = '';
+				$mediaTable = mysqli_query($mysqli, $getmedia);
+				if(! $mediaTable){
+					$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+					$mediaTable = mysqli_query($mysqli, $getmedia);
+				}
+			}else{
+				$getmedia = "SELECT * FROM VIDEO_LIST LIMIT 20";
+				$mediaTable = mysqli_query($mysqli, $getmedia);
 
-		//if search box contains something, append with where clause
-
-		$mediaTable = mysqli_query($mysqli, $getmedia);
-
-		while ($row = mysqli_fetch_array($mediaTable)) {
-			$data_item['user_id'] = $row['user_id'];
-			$data_item['media_type'] = $row['file_type'];
-			$data_item['file_name'] = $row['file_name'];
-			$data_item['video_url'] = $row['video_url'];
-			$data_item['caption'] = $row["caption"];
-			$data_item['uploaded_date'] = $row["uploaded_date"];
-
-			$media_details[] = $data_item;
-			// storing physical media paths
-			if ($data_item['media_type'] == 'video'){
-				$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'].'#t=0.5';
 			}
-			else{
-				$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
+			while ($row = mysqli_fetch_array($mediaTable)) {
+				$data_item['user_id'] = $row['user_id'];
+				$data_item['media_type'] = $row['file_type'];
+				$data_item['file_name'] = $row['file_name'];
+				$data_item['video_url'] = $row['video_url'];
+				$data_item['caption'] = $row["caption"];
+				$data_item['uploaded_date'] = $row["uploaded_date"];
+
+				$media_details[] = $data_item;
+				// storing physical media paths
+				if ($data_item['media_type'] == 'video'){
+					$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'].'#t=0.5';
+				}
+				else{
+					$media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
+				}
 			}
-		}
 
 	 ?>
 <style>
@@ -51,6 +61,30 @@ hr {
 </style>
 </head>
 <body>
+	<script type="text/javascript" language="javascript">
+			$(document).ready(function(){
+
+				$('#searchBtn').click(function() {
+					var searchtxt = $('#searchText').val();
+					var myData = {"search" : searchtxt};
+					var request = $.ajax({ //call settimeout here
+						url: "searchVideo.php",
+						type: "post",
+						data: myData
+					});
+					request.done(function (response, textStatus, jqXHR){
+							console.log("Request completed!");
+							location.reload();
+					});
+					request.fail(function (jqXHR, textStatus, errorThrown){
+							console.error(
+									"Could not complete the request. The following error occured: "+
+									textStatus, errorThrown
+							);
+					});
+				});
+		});
+	</script>
 	<div class="container-fluid" style="margin-top:1%;" >
 		<div class="col-sm-2">
 			<div style="display: grid;">
@@ -60,18 +94,15 @@ hr {
 
 					if(isset($_SESSION['username'])){
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">AProfile</button>'.
+						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">Profile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
 					}
 					else{
-
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
-						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">AProfile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Chat</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>'.
@@ -85,22 +116,21 @@ hr {
 		<div class="row" style="display:flex;">
 			<div class="input-group col-sm-8" style="display:flex;">
 
-			  <input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video" aria-label="Search" aria-describedby="searchBtn">
-			  <div class="input-group-append">
-			    <button class="btn btn-light" id="searchBtn">Search</span>
+					<input style="margin-left:10%;" type="text" class="form-control" placeholder="Search for a video"
+					aria-label="Search" id="searchText" aria-describedby="searchBtn">
+				  <div class="input-group-append">
+				    <button class="btn btn-light" id="searchBtn">Search</span>
+				  </div>
 
-			  </div>
 			</div>
 			<div class="col-sm-4">
 				<?php
 					if(isset($_SESSION['username'])){
-						echo 'user : '.$_SESSION['username'];
 						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button> ';
 					}else{
 						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
 					}
 				?>
-
 			</div>
 		</div>
 		</br>
@@ -139,7 +169,6 @@ hr {
 			$m_caption = $media_details[$x]['caption'];
 			$m_type = $media_details[$x]['media_type'];
 			$m_format = substr(strrchr($media_details[$x]['file_name'], '.'), 1 );
-
 
 			if ($m_type == 'video'){
 

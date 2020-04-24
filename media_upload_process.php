@@ -14,7 +14,7 @@ $video_category = $_POST['category'];
 echo $video_category;
 echo '<br>';
 
-$video_category = $_POST['tags'];
+$video_tags = $_POST['tags'];
 echo $video_tags;
 echo '<br>';
 
@@ -43,16 +43,20 @@ echo '<br>';
 
 // Directory to upload Media
 $dirfile = 'uploads/'.$userid.'/'.$mediatype.'/';
-$dirtmp = 'uploads/'.$userid.'/';
+
+$tempDir = 'uploads/'.$userid.'/';
 
 echo $dirfile;
 echo '<br>';
 
 //Create Directory if doesn't exist
-if(!file_exists($dirfile))
-	mkdir($dirfile, 0744, true);
-    chmod($dirfile, 0755);
-    chmod($dirtmp, 0755);
+
+if(!file_exists($dirfile)){
+	mkdir($dirfile, 0755, true);
+	chmod($tempDir, 0755);
+	chmod($dirfile, 0755);
+}
+
 
 if($_FILES["file"]["error"] > 0 )
 { $result=$_FILES["file"]["error"];
@@ -90,8 +94,8 @@ else
 				echo '<br>';
 				echo $userid;
 				echo '<br>';
-
-        chmod($upfile,0755);
+        
+				chmod($upfile, 0755);
 
 				//insert into video_list table
 
