@@ -89,142 +89,123 @@ hr {
 }
 
 </style>
-
-  </head>
+</head>
 <body>
   <div class="col-sm-1">
     <div style="display: grid;">
       <?php
-        echo '<button type="button" class="btn btn-link" onClick="location.href=\'home.php\'">Me Tube</button>'.
-           '<button type="button" class="btn btn-link" onClick="location.href=\'trending.php\'">Trending</button>';
+		echo '<button type="button" class="btn btn-link" onClick="location.href=\'home.php\'">Me Tube</button>'.
+				'<button type="button" class="btn btn-link" onClick="location.href=\'trending.php\'">Trending</button>';
 
-        if(isset($_SESSION['username'])){
-          echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'editProfile.php\'">Profile</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">AProfile</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
-        }
-        else{
-
-          echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">AProfile</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Chat</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>'.
-          '<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Playlist</button>';
-        }
-      ?>
+		if(isset($_SESSION['username'])){
+			echo '<button type="button" class="btn btn-link" onClick="location.href=\'contactList.php\'">Contacts</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'update_profile.php\'">Profile</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'media_upload.php\'">Upload</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'chats.php\'">Chat</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'myChannel.php\'">My Channel</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
+		}
+		else{
+			echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Upload</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Chat</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Channel</button>'.
+			'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">My Playlist</button>';
+		}
+	  ?>
     </div>
   </div>
 <?php
 // Rating
 if (isset($_POST['rate_btn'])) {
-    $selected_rating = $_POST['rating'];
-    $rating_int = $selected_rating;
+    if(isset($_SESSION['username'])){
+        $selected_rating = $_POST['rating'];
+        $rating_int = $selected_rating;
 
-    if ($selected_rating == 2){
-        $selected_rating = 4;
-    }
-    else if ($selected_rating == 1){
-        $selected_rating = 5;
-    }
-    else if ($selected_rating == 4){
-        $selected_rating = 2;
-    }
-    else if ($selected_rating == 5){
-        $selected_rating = 1;
-    }
-    else if ($selected_rating == 3){
-        $selected_rating = 3;
-    }
-    else {
-        $selected_rating = 4;
-    }
-    $updateRating = "call rate_media('".$msg."', '".$selected_rating."')";
-    if (mysqli_query($mysqli, $updateRating)) {
-        echo '<script>alert("Media rated successfully.")</script>';
-    }
-    else {
-        echo '<script>alert("Error occured while rating media. Please try again.")</script>';
-    }
-    }
-
-// Comment
-  if (isset($_POST['comment_btn'])) {
-    $comment = $_POST['comment'];
-    $insertCommentSQL = "INSERT INTO VIDEO_COMMENTS (VIDEO_ID, EMAIL, 	COMMENT) ".
-    " VALUES ('".$audio_id."' , '".$_SESSION['username']."', '".$comment."')";
-    $res = mysqli_query($mysqli, $insertCommentSQL);
-    var_dump($res);
-    if($res){
-      header("Refresh:0");
-    }else{
-      echo '<script>alert("Sorry, but we could not post your comment.")</script>';
-    }
-  }
-
-// Add to Playlist
-if (isset($_POST['playlist_btn'])) {
-    $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST
-        WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$audio_id. "')";
-    $check_pl = mysqli_query($mysqli, $check_playlist_sql);
-    $check_playlist = $check_pl -> fetch_row();
-    $check_playlist = $check_playlist[0];
-
-    if ($check_playlist){
-        echo '<script>alert("Media already added to your Playlist")</script>';
-	  }
-    else{
-        $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id)
-        values('" .$_SESSION['userid']. "','" .$audio_id. "')";
-        if (mysqli_query($mysqli, $add_playlist_slq)){
-            echo '<script>alert("Media added to your Playlist")</script>';
-		    }
-        else {
-            echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+        if ($selected_rating == 2){
+            $selected_rating = 4;
         }
-	}
+        else if ($selected_rating == 1){
+            $selected_rating = 5;
+        }
+        else if ($selected_rating == 4){
+            $selected_rating = 2;
+        }
+        else if ($selected_rating == 5){
+            $selected_rating = 1;
+        }
+        else if ($selected_rating == 3){
+            $selected_rating = 3;
+        }
+        else {
+            $selected_rating = 4;
+        }
+        $updateRating = "call rate_media('".$msg."', '".$selected_rating."')";
+        if (mysqli_query($mysqli, $updateRating)) {
+            echo '<script>alert("Media rated successfully.")</script>';
+        }
+        else {
+            echo '<script>alert("Error occured while rating media. Please try again.")</script>';
+        }
+    }
+    else{
+        echo '<script>alert("Please login to rate a media")</script>';
+    }
 }
 
+// Comment
+if (isset($_POST['comment_btn'])) {
+    if(isset($_SESSION['username'])){
+        $comment = $_POST['comment'];
+        $insertCommentSQL = "INSERT INTO VIDEO_COMMENTS (VIDEO_ID, EMAIL, 	COMMENT) ".
+        " VALUES ('".$audio_id."' , '".$_SESSION['username']."', '".$comment."')";
+        $res = mysqli_query($mysqli, $insertCommentSQL);
+        var_dump($res);
+        if($res){
+            header("Refresh:0");
+        }else{
+            echo '<script>alert("Sorry, but we could not post your comment.")</script>';
+        }
+    }
+    else{
+            echo '<script>alert("Please login to comment a media file.")</script>';
+        }
+}
 
 // Add to Playlist
 if (isset($_POST['playlist_btn'])) {
+    if(isset($_SESSION['username'])){
+        $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST
+            WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$audio_id. "')";
+        $check_pl = mysqli_query($mysqli, $check_playlist_sql);
+        $check_playlist = $check_pl -> fetch_row();
+        $check_playlist = $check_playlist[0];
 
-    $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST 
-        WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$audio_id. "')";
-
-    $check_pl = mysqli_query($mysqli, $check_playlist_sql);
-    $check_playlist = $check_pl -> fetch_row();
-    $check_playlist = $check_playlist[0];
-
-    if ($check_playlist){
-        
-        echo '<script>alert("Media already added to your Playlist")</script>';    
-	}
+        if ($check_playlist){
+            echo '<script>alert("Media already added to your Playlist")</script>';
+	      }
+        else{
+            $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id)
+            values('" .$_SESSION['userid']. "','" .$audio_id. "')";
+            if (mysqli_query($mysqli, $add_playlist_slq)){
+                echo '<script>alert("Media added to your Playlist")</script>';
+		        }
+            else {
+                echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+            }
+	    }
+    }
     else{
-        
-        $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id) 
-        values('" .$_SESSION['userid']. "','" .$audio_id. "')";
-
-        if (mysqli_query($mysqli, $add_playlist_slq)){
-            
-            echo '<script>alert("Media added to your Playlist")</script>';        
-		}
-        else {
-            echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+            echo '<script>alert("Please login to add a media file to playlist")</script>';
         }
-	}
 }
 
 ?>
 
 <div class="col-sm-8">
 <div class="w3-container" style="max-width:800px; margin-left: 5%;">
-<form method="post style="display:contents;"">
+<form method="post" style="display:contents;">
     <div style="height: 25%;    margin-top: 20%;    margin-left: 34%;">
 
     <audio style="margin: 0 auto; border: 5px solid #ddd;" width="800px" height="500px" controls>
@@ -240,7 +221,7 @@ if (isset($_POST['playlist_btn'])) {
     <button style="float: right;" class="btn btn-link" name="playlist_btn">Add to Playlist</button>
 
 
-    <form method="post">
+ 
         <hr align="left" width="800px">
         <textarea rows="2" cols="50" name="comment" placeholder="Enter your comment"></textarea>
         <button for="commentTextArea" style="margin-bottom:1.5%;" type="submit" class="btn btn-link" name="comment_btn">Comment</button>

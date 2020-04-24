@@ -94,88 +94,80 @@ hr {
 <?php
 // Rating 
 if (isset($_POST['rate_btn'])) {
-
-    $selected_rating = $_POST['rating'];
-    $rating_int = $selected_rating;
-
-    if ($selected_rating == 2){
-        $selected_rating = 4;
+    if(isset($_SESSION['username'])){    
+        $selected_rating = $_POST['rating'];
+        $rating_int = $selected_rating;
+        
+        if ($selected_rating == 2){
+            $selected_rating = 4;
+        }
+        else if ($selected_rating == 1){
+            $selected_rating = 5;
+        }
+        else if ($selected_rating == 4){
+            $selected_rating = 2;
+        }
+        else if ($selected_rating == 5){
+            $selected_rating = 1;
+        }
+        else if ($selected_rating == 3){
+            $selected_rating = 3;
+        }
+        else {
+            $selected_rating = 4;
+        }
+        $updateRating = "call rate_media('".$msg."', '".$selected_rating."')";
+        if (mysqli_query($mysqli, $updateRating)) {
+            echo '<script>alert("Media rated successfully.")</script>';
+        } 
+        else {
+            echo '<script>alert("Error occured while rating media. Please try again.")</script>';
+        }
     }
-    else if ($selected_rating == 1){
-        $selected_rating = 5;
+    else{
+        echo '<script>alert("Please login to rate a media")</script>';
     }
-    else if ($selected_rating == 4){
-        $selected_rating = 2;
-    }
-    else if ($selected_rating == 5){
-        $selected_rating = 1;
-    }
-    else if ($selected_rating == 3){
-        $selected_rating = 3;
-    }
-    else {
-        $selected_rating = 4;
-    }
-
-
-    $updateRating = "call rate_media('".$msg."', '".$selected_rating."')";
-
-    if (mysqli_query($mysqli, $updateRating)) {
-    
-        echo '<script>alert("Media rated successfully.")</script>';
-    } 
-    else {
-        echo '<script>alert("Error occured while rating media. Please try again.")</script>';
-    }
-
-
-  //  echo '<script>alert("'.$selected_rating.'")</script>';
-    
-    }
+}
 
 // Comment
 if (isset($_POST['comment_btn'])) {
+    if(isset($_SESSION['username'])){
 
-    echo '<script>alert("Inside comment_btn php.")</script>';
-    
+        echo '<script>alert("Inside comment_btn php.")</script>';
     }
-
-// Download
-if (isset($_POST['download_btn'])) {
-
-    echo '<script>alert("Inside download_btn php.")</script>';
-//    echo "<a href=$play_video_path download></a>";
-    //echo $play_video_path;
-    
+    else{
+        echo '<script>alert("Please login to comment a media file.")</script>';
     }
+}
+
 
 // Add to Playlist
 if (isset($_POST['playlist_btn'])) {
+    if(isset($_SESSION['username'])){
+        $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST 
+            WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$image_id. "')";
+        $check_pl = mysqli_query($mysqli, $check_playlist_sql);
+        $check_playlist = $check_pl -> fetch_row();
+        $check_playlist = $check_playlist[0];
 
-    $check_playlist_sql = "SELECT EXISTS(SELECT * FROM PLAY_LIST 
-        WHERE user_id = '" .$_SESSION['userid']. "' AND video_id = '" .$image_id. "')";
-
-    $check_pl = mysqli_query($mysqli, $check_playlist_sql);
-    $check_playlist = $check_pl -> fetch_row();
-    $check_playlist = $check_playlist[0];
-
-    if ($check_playlist){
-        
-        echo '<script>alert("Media already added to your Playlist")</script>';    
-	}
-    else{
-        
-        $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id) 
-        values('" .$_SESSION['userid']. "','" .$image_id. "')";
-
-        if (mysqli_query($mysqli, $add_playlist_slq)){
+        if ($check_playlist){
+            echo '<script>alert("Media already added to your Playlist")</script>';    
+	    }
+        else{
+            $add_playlist_slq = "insert into PLAY_LIST (user_id, video_id) 
+            values('" .$_SESSION['userid']. "','" .$image_id. "')";
             
-            echo '<script>alert("Media added to your Playlist")</script>';        
-		}
-        else {
-            echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+            if (mysqli_query($mysqli, $add_playlist_slq)){
+                echo '<script>alert("Media added to your Playlist")</script>';        
+		    }
+            else {
+                echo '<script>alert("Error occured while adding media to your Playlist. Please try again.")</script>';
+            }
+	    }
+    }
+    else{
+            echo '<script>alert("Please login to add a media file to playlist")</script>';
         }
-	}
 }
 
 ?>
