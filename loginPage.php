@@ -13,20 +13,24 @@
 <body>
   <?php
       if (isset($_POST['loginButton']) && !empty($_POST['email1']) && !empty($_POST['pwd1'])) {
-        $verifySql = "SELECT password FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
+        $verifySql = "SELECT user_id, first_name, password, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
         $resultPass = mysqli_query($mysqli, $verifySql);
         if (mysqli_num_rows($resultPass) == 1) {
             $row = mysqli_fetch_assoc($resultPass);
-            if($row["password"] == sha1($_POST['pwd1'])){
+
+            if(sha1($_POST['pwd1']) == $row["password"]){
+
               //log the user in, set session variables
-              $useridSql = "SELECT user_id, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
+              $useridSql = "SELECT user_id, first_name, channel FROM USER_ACCOUNT WHERE email_id = '" .$_POST['email1'] ."'";
               $resultSql = mysqli_query($mysqli, $useridSql);
               $row = mysqli_fetch_assoc($resultSql);
 
               $_SESSION['username'] = $_POST['email1'];
               $_SESSION['userid'] = $row["user_id"];
+
+              $_SESSION['firstname'] = $row["first_name"];
               $_SESSION['channel'] = $row["channel"];
-              $_SESSION['firstname'] = $_POST["firstName"];
+
               $_SESSION['valid'] = true;
               echo '<script>location.href="home.php"</script>';
             }else{
@@ -61,9 +65,9 @@
       <button type="submit" class="btn btn-primary" name="loginButton">Log in</button>
       <button type="button" class="btn btn-primary" name="home" onclick="location.href='home.php';">Home</button>
       <BR>
-      <!-- <div class="form-group">
+      <div class="form-group">
         <a href="forgotPassword.php">Forgot Password</a>
-      </div> -->
+      </div>
     </form>
   </div>
 </body>
