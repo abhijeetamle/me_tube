@@ -36,7 +36,7 @@
 <style>
 
 hr {
-    margin-top: 0.5%; 
+    margin-top: 0.5%;
     margin-bottom: 0.5%;
 }
 
@@ -60,7 +60,7 @@ hr {
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'playlist.php\'">My Playlist</button>';
 					}
 					else{
-						
+
 						echo '<button type="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Contacts</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">Profile</button>'.
 						'<button type="button" name="button" class="btn btn-link" onClick="location.href=\'loginPage.php\'">AProfile</button>'.
@@ -84,7 +84,7 @@ hr {
 			<div class="col-sm-4">
 				<?php
 					if(isset($_SESSION['username'])){
-						echo 'user : '.$_SESSION['username'];
+						//echo 'user : '.$_SESSION['username'];
 						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'logout.php\'">Sign Out</button> ';
 					}else{
 						echo '<button style="margin-left:70%" type="button" name="button" class="btn btn-primary" onClick="location.href=\'loginPage.php\'">Sign In</button>';
@@ -96,7 +96,7 @@ hr {
 		</br>
 		<div class="row">
 
-		<select id="media_date">
+		<select id="media_date" style="margin-left: 75%;">
 			<option label="Date">Date</option>
 			<option value="Latest">Latest</option>
 			<option value="Oldest">Oldest</option>
@@ -148,12 +148,12 @@ hr {
 								"</a>".
 							"</div>".
 					 "</div>";
-					
+
 			}
 			elseif ($m_type == 'image'){
 
 				$href_url = "show_image.php?url=".urlencode($m_url);
-			
+
 				echo "<div class='col-md-3'>" .
 						"<a href='$href_url'>".
 							"<div class='card' style='width:90%;'>" .
@@ -171,7 +171,7 @@ hr {
 
 				$href_url = "play_audio.php?url=".urlencode($m_url);
 				$m_format = "audio/".$m_format;
-			
+
 				echo "<div class='col-md-3'>" .
 						"<a href='$href_url'>".
 							"<div class='card' style='width:90%;'>" .
