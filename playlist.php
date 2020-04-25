@@ -2,8 +2,9 @@
 <title>Me Tube</title>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="toastify.js"></script>
 	<link rel="stylesheet" type="text/css" href="MeTubeStyle.css" />
-
+	<link rel="stylesheet" type="text/css" href="toastify.css" />
 	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 
 	<?php
@@ -44,19 +45,24 @@
 <body>
 	<script type="text/javascript" language="javascript">
 		$(document).ready(function(){
-			$('#remove_playlist').click(function(){
-				//alert('inside onclick');
-				//add_fav
+			//"input[name*='man']"
+			//$( "input[id][name$='man']" )
+
+			$('button[id*="remove_playlist"]').click(function(){
 				var media_id = $(this).data('mediaid');
-				var myData = {"media_id" : media_id};
+				var myData = {"media_id" : media_id, "type" : "playlist"};
 				var request = $.ajax({ //call settimeout here
 					url: "updatePlaylist.php",
 					type: "post",
 					data: myData
 				});
 				request.done(function (response, textStatus, jqXHR){
-						console.log("Removed from playlist!");
-						location.reload();
+					var myToast = Toastify({
+							 text: "Media removed from playlist successfully",
+							 duration: 5000
+					});
+					myToast.showToast();
+					location.reload();
 				});
 				request.fail(function (jqXHR, textStatus, errorThrown){
 						console.error(
@@ -66,10 +72,7 @@
 				});
 			});
 
-			$('#add_fav').click(function(){
-				//On click handler of add to Favorite
-				//add_fav
-
+			$('button[id*="add_fav"]').click(function(){
 				var media_id = $(this).data('mediaid');
 				var myData = {"media_id" : media_id};
 				var request = $.ajax({ //call settimeout here
@@ -78,8 +81,12 @@
 					data: myData
 				});
 				request.done(function (response, textStatus, jqXHR){
-						console.log("Added to Favorites!");
-						//location.reload();
+					var myToast = Toastify({
+							 text: "Media added to favorites successfully",
+							 duration: 5000
+					});
+					myToast.showToast();
+					//location.reload();
 				});
 				request.fail(function (jqXHR, textStatus, errorThrown){
 						console.error(
@@ -165,8 +172,8 @@
 											"</a>".
 										"</div>".
 
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
-										"<button type='button' data-mediaid='".$m_id."' id='add_fav' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist".$m_id."' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' data-mediaid='".$m_id."' id='add_fav".$m_id."' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
 									"</p>".
 								"</div>";
 
@@ -187,8 +194,8 @@
 											"</a>".
 										"</div>".
 
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
-										"<button type='button' data-mediaid='".$m_id."' id='add_fav' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist".$m_id."' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' data-mediaid='".$m_id."' id='add_fav".$m_id."' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
 
 									"</p>".
 								"</div>";
@@ -212,8 +219,8 @@
 											"</a>".
 										"</div>".
 
-									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
-										"<button type='button' data-mediaid='".$m_id."' id='add_fav' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
+									"<p style='margin-top: 10px; text-align: center;'><button type='button' data-mediaid='".$m_id."' id='remove_playlist".$m_id."' name='re_play' class='btn btn-link'>Remove from Playlist</button>".
+										"<button type='button' data-mediaid='".$m_id."' id='add_fav".$m_id."' name='add_fav' class='btn btn-link'>Add to Favorites</button>".
 
 									"</p>".
 								"</div>";

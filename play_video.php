@@ -180,7 +180,7 @@
             $insertCommentSQL = "INSERT INTO VIDEO_COMMENTS (VIDEO_ID, EMAIL, 	COMMENT) ".
             " VALUES ('".$video_id."' , '".$_SESSION['username']."', '".$comment."')";
             $res = mysqli_query($mysqli, $insertCommentSQL);
-            var_dump($res);
+    //        var_dump($res);
             if($res){
               header("Refresh:0");
             }else{

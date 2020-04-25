@@ -161,7 +161,7 @@ if (isset($_POST['comment_btn'])) {
         $insertCommentSQL = "INSERT INTO VIDEO_COMMENTS (VIDEO_ID, EMAIL, 	COMMENT) ".
         " VALUES ('".$audio_id."' , '".$_SESSION['username']."', '".$comment."')";
         $res = mysqli_query($mysqli, $insertCommentSQL);
-        var_dump($res);
+//        var_dump($res);
         if($res){
             header("Refresh:0");
         }else{
@@ -220,8 +220,6 @@ if (isset($_POST['playlist_btn'])) {
     <span style="margin-left: 55%;"><small style="font-size:15px; margin-left: 10px; vertical-align:center;"><?php echo $views?> views</small></span>
     <button style="float: right;" class="btn btn-link" name="playlist_btn">Add to Playlist</button>
 
-
- 
         <hr align="left" width="800px">
         <textarea rows="2" cols="50" name="comment" placeholder="Enter your comment"></textarea>
         <button for="commentTextArea" style="margin-bottom:1.5%;" type="submit" class="btn btn-link" name="comment_btn">Comment</button>
@@ -244,7 +242,7 @@ if (isset($_POST['playlist_btn'])) {
         <button class="btn btn-primary" id="download_btn" name="download_btn"><i class="fa fa-download"></i>Download</button>
     </a>
     <hr align="left" width="800px">
-  <div class="container">
+  <div class="container" style="height=250%;">
     <?php
       while ($row = mysqli_fetch_array($commentsResult)) {
         if($row['COMMENT'] != ''){
@@ -266,5 +264,92 @@ if (isset($_POST['playlist_btn'])) {
   </div>
 </div>
 </div>
+<div class="col-sm-3" style="display: contents;">
+    <?php
+      $video_id = $audio_id;
+      $cat = "SELECT category from VIDEO_LIST WHERE VIDEO_ID = $video_id ";
+      $res = mysqli_query($mysqli, $cat);
+      $category = $res->fetch_object();
+      $getmedia = "SELECT * FROM VIDEO_LIST WHERE VIDEO_ID <> $video_id AND category = '".$category->category."' ORDER BY VIEW_COUNT,RATING DESC LIMIT 20 ";
+      $mediaTable = mysqli_query($mysqli, $getmedia);
+      while ($row = mysqli_fetch_array($mediaTable)) {
+        $data_item['user_id'] = $row['user_id'];
+        $data_item['media_type'] = $row['file_type'];
+        $data_item['file_name'] = $row['file_name'];
+        $data_item['video_url'] = $row['video_url'];
+        $data_item['caption'] = $row["caption"];
+        $data_item['uploaded_date'] = $row["uploaded_date"];
+        $media_details[] = $data_item;
+        // storing physical media paths
+        if ($data_item['media_type'] == 'video'){
+          $media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'].'#t=0.5';
+        }
+        else{
+          $media_paths[] = 'uploads/'.$data_item['user_id'].'/'.$data_item['media_type'].'/'.$data_item['file_name'];
+        }
+      }
+
+  		for ($x = 0; $x < count($media_details); $x++) {
+
+  			$m_url = $media_details[$x]['video_url'];
+  			$m_caption = $media_details[$x]['caption'];
+  			$m_type = $media_details[$x]['media_type'];
+  			$m_format = substr(strrchr($media_details[$x]['file_name'], '.'), 1 );
+
+
+  			if ($m_type == 'video'){
+  				$href_url = "play_video.php?url=".urlencode($m_url);
+  				$m_format = "video/".$m_format;
+  				echo "<div class='col-md-3'>" .
+  						"<a href='$href_url'>".
+  							"<div class='card' style='width:90%;'>" .
+  								"<div class='image' style='height:85%'>".
+  									"<video preload='metadata'>".
+  										"<source src='$media_paths[$x]' type='$m_format'>".
+  									"</video>".
+  								"</div>".
+  								"<div class='text' >".
+  									"<p style='text-align: center;'>$m_caption</p>".
+  								"</div>".
+  								"</a>".
+  							"</div>".
+  					 "</div>";
+  			}
+  			elseif ($m_type == 'audio'){
+  				$href_url = "play_audio.php?url=".urlencode($m_url);
+  				$m_format = "audio/".$m_format;
+  				echo "<div class='col-md-3'>" .
+  						"<a href='$href_url'>".
+  							"<div class='card' style='width:90%;'>" .
+  								"<div class='image' style='height:85%'>".
+  									"<audio>".
+  										"<source src='$media_paths[$x]' type='$m_format'>".
+  									"</audio>".
+  								"</div>".
+  								"<div class='text' >".
+  									"<p style='text-align: center;'>$m_caption</p>".
+  								"</div>".
+  								"</a>".
+  							"</div>".
+  					 "</div>";
+  			}
+  			elseif ($m_type == 'image'){
+  				$href_url = "show_image.php?url=".urlencode($m_url);
+  				echo "<div class='col-md-3'>" .
+  						"<a href='$href_url'>".
+  							"<div class='card' style='width:90%;'>" .
+  								"<div class='image' style='height:85%'>".
+  									"<img style='object-fit: scale-down' src='$media_paths[$x]'>".
+  								"</div>".
+  								"<div class='text' >".
+  									"<p style='text-align: center;'>$m_caption</p>".
+  								"</div>".
+  								"</a>".
+  							"</div>".
+  					 "</div>";
+  			}
+  		}
+    ?>
+  </div>
 </body>
 </html>

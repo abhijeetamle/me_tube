@@ -159,7 +159,7 @@ $button-width: 160px;
   height: 250px;
   display: inline-block;
   background-color: #000000;
-  border-style: groove;
+  /*border-style: groove;*/
 /*  box-shadow: 0 1px 2px 0 rgba(0,0,0,.15); */
   margin: 10px;
   position: relative;
